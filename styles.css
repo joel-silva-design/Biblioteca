@@ -1,0 +1,53 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.cartao{
+    margin: 20px;
+    background-color: bisque;
+    color: black;
+}
+
+.cartao-escuro {
+    background-color: rgb(75, 67, 58);
+    color: whitesmoke;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 30px;
+}
+
+#cabecalho {
+    display: flex;
+    list-style: none;
+    align-items: center;
+    gap: 50px;
+    margin-right: 20px;
+}
+
+#input-busca {
+    width: 400px;
+    height: 30px;
+    border-radius: 20px;
+    padding: 10px;
+    position: relative;
+    z-index: 0;
+    visibility: hidden;
+}
+
+#svg-busca {
+    background-color: black;
+    mask-image: url(./svg/busca.svg);
+    -webkit-mask-image: url(./svg/busca.svg);
+    mask-size: contain;
+    -webkit-mask-size: contain;
+    mask-repeat: no-repeat;
+    -webkit-mask-repeat: no-repeat;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+}
