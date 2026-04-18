@@ -11,84 +11,81 @@
         <h1>Biblioteca SdF</h1>
         <nav>
             <ul id="cabecalho">
-                <li id="buscar-livro"><a><input type="search"  id="input-busca" placeholder="Busque Aqui..."></a></li>
+                <li id="buscar-livro"><a><input type="search" class="escondido" id="input-busca" placeholder="Busque Aqui..."></a></li>
                 <li id="svg-busca"></li>
-                <li id="adicionar-livro"><a>Adicionar Livro</a></li>
-                <li id="geneciar-conta"><a>Conta</a></li>
-                <li id="emprestimos"><a>Empréstimos</a></li>
+                <div class="grupo-livro">
+                    <li id="adicionar-livro"><a>Adicionar Livro</a></li>
+                        <form novalidate id="cadastro-livro" class="escondido">
+                    <div class="card-livro">
+                        <label for="nome-livro">Nome do Livro</label>
+                        <input type="text" required id="nome-livro" placeholder="Ex: Sementes do Futuro">
+                    </div>
+
+                    <div class="card-livro">
+                        <label for="capa-do-livro" id="label-capa">Adicione a Capa Aqui</label>
+                        <input type="file" accept="image/*"  name="capa-do-livro" id="capa-do-livro" required>
+                    </div>
+
+                    <div class="card-livro">
+                        <label for="nome-autor">Nome do Autor(a)</label>
+                        <input type="text" id="nome-autor" required placeholder="Ex: João">
+                    </div>
+                    <div class="card-livro">
+                        <label for="ano-publicacao">Ano de Publicação</label>
+                        <input type="number" max="2026" maxlength="4" id="ano-publicacao" placeholder="Ex: 2025" required>
+                    </div>
+                    <div class="card-livro">
+                        <label for="livro-copias">Número de Cópias</label>
+                        <input type="number" id="livro-copias" required min="1" placeholder="No mínimo 1 cópia">
+                    </div>
+
+                    <button type="submit" id="btn-add-livro">Cadastrar Livro</button>
+
+                    </form>
+                </div>
+                <div class="grupo-usuario">
+                    <li id="gerenciar-conta"><a>Conta</a></li>
+                    <form class="cadastrar-usuario escondido" novalidate>
+
+                    <h2>Crie uma Conta</h2>
+
+                    <div class="card-usuario">
+                    <label for="nome-usuario">Nome de Usuário</label>
+                    <input type="text" id="nome-usuario" required placeholder="Nome Simples sem Espaço">
+                    </div>
+
+                    <div class="card-usuario">
+                        <label for="email-usuario">Digite seu Email</label>
+                        <input type="email" id="email-usuario" required placeholder="maria@exemplo.com">
+                    </div>
+                    <div class="card-usuario">
+                        <label for="senha-usuario]">Crie uma Senha</label>
+                        <input type="password" maxlength="6" id="senha-usuario" required placeholder="Senha numérica de 6 dígitos">
+                    </div>
+
+                    <div class="card-usuario">
+                        <label for="repete-senha">Digite a Senha Novamente</label>
+                        <input type="password" id="repete-senha" maxlength="6" required>
+                    </div>
+
+                    <button type="submit" class="btn-conta">Cadastrar Conta</button>
+                    </form>
+                </div>
+
+                <div class="grupo-emprestimo">
+                    <li id="emprestimos"><a>Empréstimos</a></li>
+                    <div id="lista-emprestimos"></div>
+
+                </div>
             </ul>
         </nav>
     </header>
     <main>
-        <section class="card" id="livros">
 
-        </section>
-
-        <section class="card">
-
-            <form novalidate id="cadastro-livro">
-
-                <h2>Cadastre um livro</h2>
-
-                <div class="card-livro">
-                    <label for="nome-livro">Nome do Livro</label>
-                    <input type="text" required id="nome-livro" placeholder="Ex: Sementes do Futuro">
-                </div>
-
-                <div class="card-livro">
-                    <label for="nome-autor">Nome do Autor(a)</label>
-                    <input type="text" id="nome-autor" required placeholder="Ex: João">
-                </div>
-                <div class="card-livro">
-                    <label for="ano-publicacao">Ano de Publicação</label>
-                    <input type="number" max="2026" id="ano-publicacao" placeholder="Ex: 2025" required>
-                </div>
-                <div class="card-livro">
-                    <label for="livro-copias">Número de Cópias</label>
-                    <input type="number" id="livro-copias" required min="1" placeholder="No mínimo 1 cópia">
-                </div>
-
-                <button type="submit" id="cadastrar-livro">Cadastrar Livro</button>
-
-            </form>
-        </section>
-
-        <section class="card">
-            <form class="cadastrar-usuario" novalidate>
-
-                <h2>Crie uma Conta</h2>
-
-                <div class="card-usuario">
-                <label for="nome-usuario">Nome de Usuário</label>
-                <input type="text" id="nome-usuario" required placeholder="Nome Simples sem Espaço">
-                </div>
-
-                <div class="card-usuario">
-                    <label for="email-usuario">Digite seu Email</label>
-                    <input type="email" id="email-usuario" required placeholder="maria@exemplo.com">
-                </div>
-                <div class="card-usuario">
-                    <label for="senha-usuario]">Crie uma Senha</label>
-                    <input type="password" maxlength="6" id="senha-usuario" required placeholder="Senha numérica de 6 dígitos">
-                </div>
-
-                <div class="card-usuario">
-                    <label for="repete-senha">Digite a Senha Novamente</label>
-                    <input type="password" id="repete-senha" maxlength="6" required>
-                </div>
-
-                <button type="submit">Cadastrar Conta</button>
-            </form>
-        </section>
-
-        <section class="card">
-            
-            </div>
-        </section>
+        <h2>Acervo de Livros</h2>
+        <div id="lista-livros"></div>
 
     </main>
-
-    
 </body>
 <script src="./script.js"></script>
 </html>

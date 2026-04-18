@@ -2,12 +2,13 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 .cartao{
-    margin: 20px;
     background-color: bisque;
     color: black;
+
 }
 
 .cartao-escuro {
@@ -18,7 +19,14 @@
 header {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
+    background-color: rgb(165, 128, 79);
+    padding: 20px;
+    position: relative;
+    z-index: 0;
+}
+header li {
+    font-weight: bold;
 }
 
 #cabecalho {
@@ -34,9 +42,18 @@ header {
     height: 30px;
     border-radius: 20px;
     padding: 10px;
-    position: relative;
-    z-index: 0;
+}
+
+.escondido {
     visibility: hidden;
+    opacity: 0;
+    height: 0;
+}
+
+.visivel {
+    visibility: visible;
+    opacity: 1;
+    height: auto;
 }
 
 #svg-busca {
@@ -50,4 +67,62 @@ header {
     width: 30px;
     height: 30px;
     cursor: pointer;
+}
+
+.grupo-livro {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+#cadastro-livro, .cadastrar-usuario{
+    position: absolute;
+    z-index: 1;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: rgb(168, 143, 111);
+    margin-top: 40px;
+}
+
+#adicionar-livro, #gerenciar-conta, #emprestimos{
+    cursor: pointer;
+}
+
+.card-livro, .card-usuario {
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.card-livro input, .card-usuario input{
+    border-radius: 5px;
+    padding: 1px;
+}
+
+#btn-add-livro, .btn-conta{
+    width: 100%;
+    height: 25px;
+    border-radius: 5px;
+}
+
+#capa-do-livro {
+    display: none;
+}
+
+#label-capa {
+    cursor: pointer;
+}
+
+.grupo-usuario {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+main h2 {
+    margin: 50px 30px;
+    font-weight: bold;
 }
