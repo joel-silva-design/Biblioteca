@@ -5,6 +5,73 @@
     font-family: Arial, Helvetica, sans-serif;
 }
 
+#loginForm{
+    max-width: 400px;
+    margin: 100px auto;
+    padding: 30px;
+    background-color: rgb(165, 128, 79);
+    border-radius: 8px;
+    gap : 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.btns-container{
+    display: flex;
+    justify-content: space-around;
+}
+
+#loginForm h2 {
+    text-align: center;
+    margin-bottom: 30px;
+    font-weight: bold;
+}
+
+#loginForm input {
+    width: 100%;
+    height: 25px;
+    border-radius: 5px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+}
+
+#loginForm label {
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+#btn-login {
+    width: 170px;
+    height: 30px;
+    background-color: rgb(75, 67, 58);
+    color: whitesmoke;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+#btn-login:hover {
+    background-color: rgb(60, 50, 40);
+}
+
+#btn-conectar{
+    width: 170px;
+    height: 30px;
+    background-color: transparent;
+    color: black;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+#btn-conectar:hover {
+    background-color: rgb(170, 127, 71);
+    color: whitesmoke;
+}
+
 .cartao{
     background-color: bisque;
     color: black;
@@ -76,10 +143,11 @@ header li {
     gap: 20px;
 }
 
-#cadastro-livro, .cadastrar-usuario{
+#cadastro-livro{
     position: absolute;
     z-index: 1;
     padding: 10px;
+    max-width: 200px;
     border-radius: 5px;
     background-color: rgb(168, 143, 111);
     margin-top: 40px;
@@ -89,19 +157,19 @@ header li {
     cursor: pointer;
 }
 
-.card-livro, .card-usuario {
+.card-livro {
     margin-bottom: 10px;
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
-.card-livro input, .card-usuario input{
+.card-livro input{
     border-radius: 5px;
     padding: 1px;
 }
 
-#btn-add-livro, .btn-conta{
+#btn-add-livro{
     width: 100%;
     height: 25px;
     border-radius: 5px;
@@ -122,7 +190,91 @@ header li {
     gap: 20px;
 }
 
-main h2 {
+#h2-lista {
     margin: 50px 30px;
     font-weight: bold;
+}
+
+.cadastrar-usuario {
+    width: 510px;
+    margin: 100px auto;
+    align-self: center;
+    background-color: rgb(165, 128, 79);
+    padding: 30px;
+    gap: 30px;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.card-usuario {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.cadastrar-usuario h2 {
+    text-align: center;
+    margin-bottom: 30px;
+    font-weight: bold;
+}
+
+.cadastrar-usuario input {
+    width: 100%;
+    height: 25px;
+    border-radius: 5px;
+    padding: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+}
+
+.cadastrar-usuario label {
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.btn-conta {
+    width: 100%;
+    height: 30px;
+    background-color: rgb(75, 67, 58);
+    color: whitesmoke;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.mensagem {
+    margin-top: 8px;
+    min-height: 12px;
+    font-weight: bold;
+    display: block;
+    text-align: center;
+}
+
+.mensagem.sucesso {
+    color: green;
+}
+
+.mensagem.erro {
+    color: red;
+}
+
+.lista-livros {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    margin-left: 20px;
+    list-style: none;
+}
+
+.lista-livros li {
+    background-color: rgb(158, 126, 83);
+    padding: 10px;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    width: 250px;
 }
