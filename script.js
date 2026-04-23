@@ -21,11 +21,12 @@ const mensagem = document.querySelector(".mensagem");
 let usuarioLogado = [];
 let biblioteca = [];
 let listaUsuarios = [];
+let novoLivro = {};
 
-function mostrarMensagem(texto, tipo) {
-    mensagem.textContent = texto;
-    mensagem.className = "mensagem";
-    mensagem.classList.add(tipo);
+function mostrarMensagem(texto, tipo, elemento) {
+    elemento.textContent = texto;
+    elemento.className = "mensagem";
+    elemento.classList.add(tipo);
 }
 
 if (svgBusca) {
@@ -47,17 +48,17 @@ function validarConta (nome, email, senha, repeteSenha) {
         erroCadastro.innerHTML = "Preencha todos os campos obrigatórios.";
         return false;
     } else if (!emailRegex.test(email)) {
-            mostrarMensagem("Digite um endereço de email válido.", "erro");
+            mostrarMensagem("Digite um endereço de email válido.", "erro", mensagem);
             return false;
     }else if (senha !== repeteSenha) {
-        mostrarMensagem("As senhas não coincidem.", "erro");
+        mostrarMensagem("As senhas não coincidem.", "erro", mensagem);
         return false;
     } else if (!/^\d{6}$/.test(senha)) {
-        mostrarMensagem("A senha deve conter exatamente 6 dígitos numéricos.", "erro");
+        mostrarMensagem("A senha deve conter exatamente 6 dígitos numéricos.", "erro", mensagem);
         return false;
     } else {
         return true;
-        mostrarMensagem("Conta criada com sucesso!", "sucesso");
+        mostrarMensagem("Conta criada com sucesso!", "sucesso", mensagem);
     }    
 }
 
@@ -69,7 +70,7 @@ criarConta.addEventListener('submit', (evento) => {
     const senha = usuarioSenha.value;
     const repeteSenhaValue = repeteSenha.value;
     if (validarConta(nome, email, senha, repeteSenhaValue)) {
-        mostrarMensagem("Login realizado com sucesso!", "sucesso");
+        mostrarMensagem("Login realizado com sucesso!", "sucesso", mensagem);
         const novoUsuario = {
             id: Date.now(),
             nome: nome,
@@ -128,17 +129,17 @@ if (addLivro) {
         const anoPublicacao = document.getElementById("ano-publicacao").value.trim();
         const numeroCopias = document.getElementById("livro-copias").value.trim();
         if (titulo === "" || autor === "" || anoPublicacao === "" || numeroCopias === "") {
-            mostrarMensagem("Preencha todos os campos obrigatórios.", "erro");
+            mostrarMensagem("Preencha todos os campos obrigatórios.", "erro", mensagem);
             return;
         } else if (!/^\d{4}$/.test(anoPublicacao)) {
-            mostrarMensagem("Digite um ano de publicação válido (4 dígitos).", "erro");
+            mostrarMensagem("Digite um ano de publicação válido (4 dígitos).", "erro", mensagem);
             return;
         } else if (!/^\d+$/.test(numeroCopias)) {
-            mostrarMensagem("Digite um número válido de cópias.", "erro");
+            mostrarMensagem("Digite um número válido de cópias.", "erro", mensagem);
             return;
         } else {
 
-        const novoLivro = {
+        novoLivro = {
             id: Date.now(),
             titulo: titulo,
             autor: autor,
@@ -149,6 +150,7 @@ if (addLivro) {
 
         localStorage.setItem("biblioteca", JSON.stringify(biblioteca));
         adicionarLivro(titulo, autor, anoPublicacao, numeroCopias);
+        return this.novoLivro;
     }
     })
 };
@@ -170,38 +172,83 @@ window.addEventListener('load', () => {
 
 function adicionarLivro(titulo, autor, anoPublicacao, numeroCopias) {
    
-    let livroItem = document.createElement("li");
+    const livroItem = document.createElement("li");
         livroItem.innerHTML = `
         <h3>${titulo}</h3>
         <h4>${autor}</h4>
         <p>(${anoPublicacao}) - Cópias: ${numeroCopias}</p>
         <button class="btn-emprestimo">Solicitar Empréstimo</button>
-        <small class="mensagem"></small>
+        <small class="mensagem2"></small>
         `;
         acervoLivros.appendChild(livroItem);
         addLivro.reset();
-        mostrarMensagem("Livro adicionado com sucesso!", "sucesso");
-}
+        let mensagem2 = livroItem.querySelector(".mensagem2");
+        mostrarMensagem("Livro adicionado com sucesso!", "sucesso", mensagem);
 
-const btnEmprestimo = document.querySelectorAll(".btn-emprestimo"); 
+    const btnEmprestimo = livroItem.querySelector(".btn-emprestimo");
+    btnEmprestimo.addEventListener('click', emprestimo);
 
-function emprestimo() {
-   
-    if (novoLivro.numeroCopias > 0) {
-        novoLivro.numeroCopias--;
+    function emprestimo(event) {
+    event.preventDefault();
+    console.log("Clique detectado com sucesso!");
+    
+    if (numeroCopias > 0) {
+        numeroCopias--;
         localStorage.setItem("biblioteca", JSON.stringify(biblioteca));
-        botao.parentElement.querySelector("p").textContent = `(${novoLivro.anoPublicacao}) - Cópias: ${novoLivro.numeroCopias}`;
-        usuarioLogado.push(novoLivro.titulo);
+        btnEmprestimo.parentElement.querySelector("p").textContent = `(${anoPublicacao}) - Cópias: ${numeroCopias}`;
+        usuarioLogado.push(titulo);
+        mostrarMensagem("Empréstimo solicitado com sucesso!", "sucesso", mensagem2);
         return true;
-        mostrarMensagem("Empréstimo solicitado com sucesso!", "sucesso");
     } else {
-        mostrarMensagem("Desculpe, não há cópias disponíveis para empréstimo.", "erro");
+        mostrarMensagem("Desculpe, não há cópias disponíveis para empréstimo.", "erro", mensagem2);
         return false;
     }
 }
+}
 
-if (btnEmprestimo) {
-    btnEmprestimo.forEach(botao => {
-        botao.addEventListener('click', emprestimo);
+// const btnEmprestimo = document.querySelectorAll(".btn-emprestimo");
+
+// function emprestimo(event) {
+//     event.preventDefault();
+//     console.log("Clique detectado com sucesso!");
+        
+//     const tituloLivro = this.parentElement.querySelector("h3").textContent;
+//     const novoLivro = biblioteca.find(livro => livro.titulo === tituloLivro);
+//     const botao = btnEmprestimo.find(btn => btn === this);
+//     const numeroCopias = parseInt(novoLivro.numeroCopias);
+//     const mensagemElemento = this.parentElement.querySelector(".mensagem");
+//     const anoPublicacao = this.parentElement.querySelector("p").textContent;
+    
+//     if (numeroCopias > 0) {
+//         numeroCopias--;
+//         localStorage.setItem("biblioteca", JSON.stringify(biblioteca));
+//         botao.parentElement.querySelector("p").textContent = `(${novoLivro.anoPublicacao}) - Cópias: ${numeroCopias}`;
+//         usuarioLogado.push(tituloLivro);
+//         mostrarMensagem("Empréstimo solicitado com sucesso!", "sucesso");
+//         return true;
+//     } else {
+//         mostrarMensagem("Desculpe, não há cópias disponíveis para empréstimo.", "erro");
+//         return false;
+//     }
+// }
+
+// if (btnEmprestimo) {
+//     btnEmprestimo.forEach((botao) => {
+//         botao.addEventListener('click', console.log("Clique detectado com sucesso!"));
+//     });
+// }
+
+function buscarLivro() {
+    const termoBusca = inputBusca.value.trim().toLowerCase();
+    const livros = acervoLivros.querySelectorAll("li");
+
+    livros.forEach(livro => {
+        const titulo = livro.querySelector("h3").textContent.toLowerCase();
+        if (titulo.includes(termoBusca)) {
+            livro.style.display = "block";
+        } else {
+            livro.style.display = "none";
+        }
     });
 }
+
