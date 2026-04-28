@@ -9,7 +9,7 @@ const usuarioEmail = document.getElementById("email-usuario");
 const usuarioSenha = document.getElementById("senha-usuario");
 const repeteSenha = document.getElementById("repete-senha");
 const btnCadastrarUser = document.querySelector(".btn-conta");
-const erroCadastro = document.querySelector(".erro-cadastro");
+// const erroCadastro = document.querySelector(".mensagem");
 const btnLogin = document.querySelector(".btn-login");
 const btnConectar = document.querySelector(".btn-conectar");
 const erroLogin = document.querySelector(".erro-login");
@@ -20,7 +20,7 @@ const mensagem = document.querySelector(".mensagem");
 
 let usuarioLogado = [];
 let biblioteca = [];
-let listaUsuarios = [];
+let listaUsuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
 let novoLivro = {};
 
 function mostrarMensagem(texto, tipo, elemento) {
@@ -45,7 +45,7 @@ if (addLivroHeader) {
 
 function validarConta (nome, email, senha, repeteSenha) {
     if (nome === "" || email === "" || senha === "" || repeteSenha === "") {
-        erroCadastro.innerHTML = "Preencha todos os campos obrigatórios.";
+        mostrarMensagem("Preencha todos os campos obrigatórios.", "erro", mensagem);
         return false;
     } else if (!emailRegex.test(email)) {
             mostrarMensagem("Digite um endereço de email válido.", "erro", mensagem);
@@ -82,7 +82,7 @@ criarConta.addEventListener('submit', (evento) => {
         console.log(`Usuário ${nome} criado com sucesso!`);
         console.log(listaUsuarios);
         criarConta.reset();
-        erroCadastro.innerHTML = "";
+        // erroCadastro.innerHTML = "";
     }
     salvarUsuarios();
 });
@@ -106,17 +106,17 @@ loginForm.addEventListener('submit', (evento) => {
     const nome = usuarioNome.value.trim();
     const senha = usuarioSenha.value;
     if (nome === "" || senha === "") {
-        erroLogin.innerHTML = "Preencha todos os campos obrigatórios.";
+        mostrarMensagem("Preencha todos os campos obrigatórios.", "erro", mensagem);
         return;
     }
     const usuarioEncontrado = listaUsuarios.find(usuario => usuario.nome === nome && usuario.senha === senha);
     if (usuarioEncontrado) {
             console.log(`Bem-vindo, ${usuarioEncontrado.nome}!`);
-            loginForm.reset();
-            erroLogin.innerHTML = "";
+            mostrarMensagem("Login realizado com sucesso!", "sucesso", mensagem);
             usuarioLogado = [usuarioNome.value.trim(), usuarioEmail.value];
+            loginForm.reset();
         } else {
-            erroLogin.innerHTML = "Nome ou senha incorretos.";
+            mostrarMensagem("Nome ou senha incorretos.", "erro", mensagem);
         }  
     });
 }
@@ -155,35 +155,26 @@ if (addLivro) {
     })
 };
 
-carregarBiblioteca = () => {
-    const bibliotecaSalva = localStorage.getItem("biblioteca"); 
-    if (bibliotecaSalva) {
-        biblioteca = JSON.parse(bibliotecaSalva);
-    }
-    biblioteca.forEach(livro => {
-        adicionarLivro(livro.titulo, livro.autor, livro.anoPublicacao, livro.numeroCopias);
-    });
-}
-
-window.addEventListener('load', () => {
-    carregarUsuarios();
-    carregarBiblioteca();
-});
-
 function adicionarLivro(titulo, autor, anoPublicacao, numeroCopias) {
+
+    if (!acervoLivros) {
+        console.warn("A lista de livros não foi encontrada nesta página.");
+        return;
+    }
    
     const livroItem = document.createElement("li");
-        livroItem.innerHTML = `
+    
+    livroItem.innerHTML = `
         <h3>${titulo}</h3>
         <h4>${autor}</h4>
         <p>(${anoPublicacao}) - Cópias: ${numeroCopias}</p>
         <button class="btn-emprestimo">Solicitar Empréstimo</button>
         <small class="mensagem2"></small>
-        `;
-        acervoLivros.appendChild(livroItem);
-        addLivro.reset();
-        let mensagem2 = livroItem.querySelector(".mensagem2");
-        mostrarMensagem("Livro adicionado com sucesso!", "sucesso", mensagem);
+    `;
+    acervoLivros.appendChild(livroItem);
+    addLivro.reset();
+    let mensagem2 = livroItem.querySelector(".mensagem2");
+    mostrarMensagem("Livro adicionado com sucesso!", "sucesso", mensagem);
 
     const btnEmprestimo = livroItem.querySelector(".btn-emprestimo");
     btnEmprestimo.addEventListener('click', emprestimo);
@@ -205,6 +196,22 @@ function adicionarLivro(titulo, autor, anoPublicacao, numeroCopias) {
     }
 }
 }
+
+carregarBiblioteca = () => {
+    const bibliotecaSalva = localStorage.getItem("biblioteca"); 
+    if (bibliotecaSalva) {
+        biblioteca = JSON.parse(bibliotecaSalva);
+    }
+    biblioteca.forEach(livro => {
+        adicionarLivro(livro.titulo, livro.autor, livro.anoPublicacao, livro.numeroCopias);
+    });
+}
+
+window.addEventListener('load', () => {
+    carregarUsuarios();
+    carregarBiblioteca();
+});
+
 
 // const btnEmprestimo = document.querySelectorAll(".btn-emprestimo");
 

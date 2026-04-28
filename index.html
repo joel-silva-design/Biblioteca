@@ -1,70 +1,111 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Biblioteca</title>
-    <link rel="stylesheet" href="./styles.css">
-</head>
-<body class="cartao">
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body class="cartao">
     <header>
-        <h1>Biblioteca SdF</h1>
-        <nav>
-            <ul id="cabecalho">
-                <li id="buscar-livro"><a><input type="search" class="escondido" id="input-busca" placeholder="Busque Aqui..."></a></li>
-                <li id="svg-busca"></li>
-                <div class="grupo-livro">
-                    <li id="adicionar-livro"><a>Adicionar Livro</a></li>
-                    <form novalidate id="cadastro-livro" class="escondido">
-                    
-                        <div class="card-livro">
-                            <label for="nome-livro">Nome do Livro</label>
-                            <input type="text" required id="nome-livro" placeholder="Ex: Sementes do Futuro">
-                        </div>
+      <h1>Biblioteca SdF</h1>
+      <nav>
+        <ul id="cabecalho">
+          <li id="buscar-livro">
+            <a
+              ><input
+                type="search"
+                class="escondido"
+                id="input-busca"
+                placeholder="Busque Aqui..."
+            /></a>
+          </li>
+          <li id="svg-busca"></li>
+          <div class="grupo-livro">
+            <li id="adicionar-livro"><a>Adicionar Livro</a></li>
+            <form novalidate id="cadastro-livro" class="escondido">
+              <div class="card-livro">
+                <label for="nome-livro">Nome do Livro</label>
+                <input
+                  type="text"
+                  required
+                  id="nome-livro"
+                  placeholder="Ex: Sementes do Futuro"
+                />
+              </div>
 
-                        <div class="card-livro">
-                            <label for="capa-do-livro" id="label-capa">Adicione a Capa Aqui</label>
-                            <input type="file" accept="image/*"  name="capa-do-livro" id="capa-do-livro" required>
-                        </div>
+              <div class="card-livro">
+                <label for="capa-do-livro" id="label-capa"
+                  >Adicione a Capa Aqui</label
+                >
+                <input
+                  type="file"
+                  accept="image/*"
+                  name="capa-do-livro"
+                  id="capa-do-livro"
+                  required
+                />
+              </div>
 
-                        <div class="card-livro">
-                            <label for="nome-autor">Nome do Autor(a)</label>
-                            <input type="text" id="nome-autor" required placeholder="Ex: João">
-                        </div>
-                        <div class="card-livro">
-                            <label for="ano-publicacao">Ano de Publicação</label>
-                            <input type="number" maxlength="4" id="ano-publicacao" placeholder="Ex: 2025" required>
-                        </div>
-                        <div class="card-livro">
-                            <label for="livro-copias">Número de Cópias</label>
-                            <input type="number" id="livro-copias" required min="1" placeholder="No mínimo 1 cópia">
-                        </div>
+              <div class="card-livro">
+                <label for="nome-autor">Nome do Autor(a)</label>
+                <input
+                  type="text"
+                  id="nome-autor"
+                  required
+                  placeholder="Ex: João"
+                />
+              </div>
+              <div class="card-livro">
+                <label for="ano-publicacao">Ano de Publicação</label>
+                <input
+                  type="number"
+                  maxlength="4"
+                  id="ano-publicacao"
+                  placeholder="Ex: 2025"
+                  required
+                />
+              </div>
+              <div class="card-livro">
+                <label for="livro-copias">Número de Cópias</label>
+                <input
+                  type="number"
+                  id="livro-copias"
+                  required
+                  min="1"
+                  placeholder="No mínimo 1 cópia"
+                />
+              </div>
 
-                        <button type="submit" id="btn-add-livro">Cadastrar Livro</button>
-                        <small class="mensagem"></small>
+              <button type="submit" id="btn-add-livro">Cadastrar Livro</button>
+              <small class="mensagem"></small>
+            </form>
+          </div>
+          <div class="grupo-usuario">
+            <li id="gerenciar-conta"><a>Conta</a></li>
+          </div>
 
-                    </form>
-                </div>
-                <div class="grupo-usuario">
-                    <li id="gerenciar-conta"><a>Conta</a></li>
-                </div>
-
-                <div class="grupo-emprestimo">
-                    <li id="emprestimos"><a>Empréstimos</a></li>
-                    <div id="lista-emprestimos"></div>
-
-                </div>
-            </ul>
-        </nav>
+          <div class="grupo-emprestimo">
+            <li id="emprestimos"><a>Empréstimos</a></li>
+            <div id="lista-emprestimos"></div>
+          </div>
+        </ul>
+      </nav>
     </header>
     <main>
-
-        <h2 id="h2-lista">Acervo de Livros</h2>
-        <div id="acervo-livros">
-            <ul class="lista-livros"></ul>
-        </div>
-
+      <h2 id="h2-lista">Acervo de Livros</h2>
+      <div id="acervo-livros">
+        <ul class="lista-livros">
+          <li>
+            <h3>${titulo}</h3>
+            <h4>${autor}</h4>
+            <p>(${anoPublicacao}) - Cópias: ${numeroCopias}</p>
+            <button class="btn-emprestimo">Solicitar Empréstimo</button>
+            <small class="mensagem2"></small>
+          </li>
+        </ul>
+      </div>
     </main>
-</body>
-<script src="./script.js"></script>
+  </body>
+  <script src="./script.js"></script>
 </html>

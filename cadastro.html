@@ -1,46 +1,67 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./styles.css">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./styles.css" />
     <title>Cadastrar Usuário</title>
-</head>
-<body>
+  </head>
+  <body>
     <header>
-        <h1>Biblioteca SdF</h1>
+      <h1>Biblioteca SdF</h1>
     </header>
     <main>
-        <form class="cadastrar-usuario" novalidate>
+      <form class="cadastrar-usuario" novalidate>
+        <h2>Crie uma Conta</h2>
 
-            <h2>Crie uma Conta</h2>
+        <div class="card-usuario">
+          <label for="nome-usuario">Nome de Usuário</label>
+          <input
+            type="text"
+            id="nome-usuario"
+            required
+            placeholder="Nome Simples sem Espaço"
+          />
+        </div>
 
-            <div class="card-usuario">
-                <label for="nome-usuario">Nome de Usuário</label>
-                <input type="text" id="nome-usuario" required placeholder="Nome Simples sem Espaço">
-            </div>
+        <div class="card-usuario">
+          <label for="email-usuario">Digite seu Email</label>
+          <input
+            type="email"
+            id="email-usuario"
+            required
+            placeholder="maria@exemplo.com"
+          />
+        </div>
 
-            <div class="card-usuario">
-                <label for="email-usuario">Digite seu Email</label>
-                <input type="email" id="email-usuario" required placeholder="maria@exemplo.com">
-            </div>
+        <div class="card-usuario">
+          <label for="senha-usuario">Crie uma Senha</label>
+          <input
+            type="password"
+            maxlength="6"
+            id="senha-usuario"
+            required
+            placeholder="Senha numérica de 6 dígitos"
+          />
+        </div>
 
-            <div class="card-usuario">
-                <label for="senha-usuario">Crie uma Senha</label>
-                <input type="password" maxlength="6" id="senha-usuario" required placeholder="Senha numérica de 6 dígitos">
-            </div>
+        <div class="card-usuario">
+          <label for="repete-senha">Repita a Senha</label>
+          <input
+            type="password"
+            id="repete-senha"
+            maxlength="6"
+            placeholder="As senhas devem ser iguais"
+            required
+          />
+        </div>
 
-            <div class="card-usuario">
-                <label for="repete-senha">Repita a Senha</label>
-                <input type="password" id="repete-senha" maxlength="6" placeholder="As senhas devem ser iguais" required>
-            </div>
-
-            <a href="./login.html"><button type="submit" class="btn-conta">Cadastrar Conta</button></a>
-            <small class="mensagem"></small>
-        </form>
-
+        <a href="#login"
+          ><button type="submit" class="btn-conta">Cadastrar Conta</button></a
+        >
+        <small class="mensagem"></small>
+      </form>
     </main>
-
-</body>
-<script src="./script.js"></script>
+  </body>
+  <script src="./script.js"></script>
 </html>
