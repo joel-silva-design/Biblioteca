@@ -2,6 +2,8 @@ const svgBusca = document.getElementById("svg-busca");
 const inputBusca = document.getElementById("input-busca");
 const addLivro = document.getElementById("cadastro-livro");
 const addLivroHeader = document.getElementById("adicionar-livro");
+const grupoUsuario = document.querySelector(".grupo-usuario");
+const usuarioInfo = document.getElementById("usuario-info");
 const gerenciarConta = document.getElementById("gerenciar-conta");
 const criarConta = document.querySelector(".cadastrar-usuario");
 const usuarioNome = document.getElementById("nome-usuario");
@@ -9,7 +11,6 @@ const usuarioEmail = document.getElementById("email-usuario");
 const usuarioSenha = document.getElementById("senha-usuario");
 const repeteSenha = document.getElementById("repete-senha");
 const btnCadastrarUser = document.querySelector(".btn-conta");
-// const erroCadastro = document.querySelector(".mensagem");
 const btnLogin = document.querySelector(".btn-login");
 const btnConectar = document.querySelector(".btn-conectar");
 const erroLogin = document.querySelector(".erro-login");
@@ -38,6 +39,8 @@ if (svgBusca) {
 if (addLivroHeader) {
     addLivroHeader.addEventListener('click', () =>{
     addLivro.classList.toggle("visivel");
+    usuarioInfo.classList.remove("visivel");
+    usuarioInfo.classList.add("escondido");
     mensagem.textContent = "";
     mensagem.className = "mensagem";
     });
@@ -113,7 +116,9 @@ loginForm.addEventListener('submit', (evento) => {
     if (usuarioEncontrado) {
             console.log(`Bem-vindo, ${usuarioEncontrado.nome}!`);
             mostrarMensagem("Login realizado com sucesso!", "sucesso", mensagem);
-            usuarioLogado = [usuarioNome.value.trim(), usuarioEmail.value];
+            let usuarioLogado = [usuarioEncontrado.nome, usuarioEncontrado.email];
+            localStorage.setItem("usuarioLogado", JSON.stringify(usuarioLogado));
+            window.location.href = "index.html";
             loginForm.reset();
         } else {
             mostrarMensagem("Nome ou senha incorretos.", "erro", mensagem);
@@ -212,38 +217,31 @@ window.addEventListener('load', () => {
     carregarBiblioteca();
 });
 
+if (grupoUsuario) {
+    let usuarioLogado = JSON.parse(localStorage.getItem("usuarioLogado"));
+    console.log("Usuário logado:", usuarioLogado);
+    if (usuarioLogado) {
+        let nomeLogado = document.getElementById("nome-logado");
+        nomeLogado.innerHTML = `<strong>Bem-vindo, ${usuarioLogado[0]}!</strong>`;
 
-// const btnEmprestimo = document.querySelectorAll(".btn-emprestimo");
+        let emailLogado = document.getElementById("email-logado");
+        emailLogado.textContent = usuarioLogado[1];
 
-// function emprestimo(event) {
-//     event.preventDefault();
-//     console.log("Clique detectado com sucesso!");
-        
-//     const tituloLivro = this.parentElement.querySelector("h3").textContent;
-//     const novoLivro = biblioteca.find(livro => livro.titulo === tituloLivro);
-//     const botao = btnEmprestimo.find(btn => btn === this);
-//     const numeroCopias = parseInt(novoLivro.numeroCopias);
-//     const mensagemElemento = this.parentElement.querySelector(".mensagem");
-//     const anoPublicacao = this.parentElement.querySelector("p").textContent;
-    
-//     if (numeroCopias > 0) {
-//         numeroCopias--;
-//         localStorage.setItem("biblioteca", JSON.stringify(biblioteca));
-//         botao.parentElement.querySelector("p").textContent = `(${novoLivro.anoPublicacao}) - Cópias: ${numeroCopias}`;
-//         usuarioLogado.push(tituloLivro);
-//         mostrarMensagem("Empréstimo solicitado com sucesso!", "sucesso");
-//         return true;
-//     } else {
-//         mostrarMensagem("Desculpe, não há cópias disponíveis para empréstimo.", "erro");
-//         return false;
-//     }
-// }
+        const btnLogout = document.getElementById("btn-logout");
 
-// if (btnEmprestimo) {
-//     btnEmprestimo.forEach((botao) => {
-//         botao.addEventListener('click', console.log("Clique detectado com sucesso!"));
-//     });
-// }
+        btnLogout.addEventListener('click', () => {
+            localStorage.removeItem("usuarioLogado");
+            window.location.href = "login.html";
+        });
+        const usuarioInfo = document.getElementById("usuario-info");
+        grupoUsuario.addEventListener('click', () => {
+        usuarioInfo.classList.toggle("visivel");
+        addLivro.classList.remove("visivel");
+        addLivro.classList.add("escondido");
+        });
+    }
+}
+
 
 function buscarLivro() {
     const termoBusca = inputBusca.value.trim().toLowerCase();
@@ -258,4 +256,3 @@ function buscarLivro() {
         }
     });
 }
-

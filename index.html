@@ -83,6 +83,11 @@
           </div>
           <div class="grupo-usuario">
             <li id="gerenciar-conta"><a>Conta</a></li>
+            <div id="usuario-info" class="escondido">
+              <p id="nome-logado"></p>
+              <p id="email-logado"></p>
+              <button id="btn-logout">Sair</button>
+            </div>
           </div>
 
           <div class="grupo-emprestimo">
@@ -96,13 +101,7 @@
       <h2 id="h2-lista">Acervo de Livros</h2>
       <div id="acervo-livros">
         <ul class="lista-livros">
-          <li>
-            <h3>${titulo}</h3>
-            <h4>${autor}</h4>
-            <p>(${anoPublicacao}) - Cópias: ${numeroCopias}</p>
-            <button class="btn-emprestimo">Solicitar Empréstimo</button>
-            <small class="mensagem2"></small>
-          </li>
+          <!-- Os livros serão adicionados aqui dinamicamente -->
         </ul>
       </div>
     </main>

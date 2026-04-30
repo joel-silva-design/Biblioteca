@@ -5,8 +5,9 @@
     font-family: Arial, Helvetica, sans-serif;
 }
 
-#loginForm{
+#login-form{
     max-width: 400px;
+    height: 370px;
     margin: 100px auto;
     padding: 30px;
     background-color: rgb(165, 128, 79);
@@ -21,13 +22,13 @@
     justify-content: space-around;
 }
 
-#loginForm h2 {
+#login-form h2 {
     text-align: center;
     margin-bottom: 30px;
     font-weight: bold;
 }
 
-#loginForm input {
+#login-form input {
     width: 100%;
     height: 25px;
     border-radius: 5px;
@@ -36,7 +37,7 @@
     font-size: 16px;
 }
 
-#loginForm label {
+#login-form label {
     margin-bottom: 5px;
     font-weight: bold;
 }
@@ -136,14 +137,14 @@ header li {
     cursor: pointer;
 }
 
-.grupo-livro {
+.grupo-livro, .grupo-usuario {
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 20px;
 }
 
-#cadastro-livro{
+#cadastro-livro, #usuario-info {
     position: absolute;
     z-index: 1;
     padding: 10px;
@@ -155,6 +156,10 @@ header li {
 
 #adicionar-livro, #gerenciar-conta, #emprestimos{
     cursor: pointer;
+}
+
+#adicionar-livro:hover, #gerenciar-conta:hover, #emprestimos:hover {
+    color: whitesmoke;
 }
 
 .card-livro {
@@ -173,6 +178,16 @@ header li {
     width: 100%;
     height: 25px;
     border-radius: 5px;
+    background-color: rgb(75, 67, 58);
+    color: whitesmoke;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+#btn-add-livro:hover {
+    background-color: rgb(56, 197, 56);
+    transform: scale(1.05);
 }
 
 #capa-do-livro {
@@ -183,11 +198,27 @@ header li {
     cursor: pointer;
 }
 
-.grupo-usuario {
+#usuario-info {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 20px;
+    gap: 10px;
+}
+
+#usuario-info button {
+    width: 100%;
+    height: 30px;
+    background-color: rgb(75, 67, 58);
+    color: whitesmoke;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+#usuario-info button:hover {
+    background-color: rgb(146, 29, 29);
+    transform: scale(1.05);
 }
 
 #h2-lista {
@@ -244,19 +275,19 @@ header li {
     cursor: pointer;
 }
 
-.mensagem {
-    margin-top: 8px;
+.mensagem{
+    margin-top: 7px;
     min-height: 12px;
     font-weight: bold;
     display: block;
     text-align: center;
 }
 
-.mensagem.sucesso {
+.mensagem.sucesso{
     color: green;
 }
 
-.mensagem.erro {
+.mensagem.erro{
     color: red;
 }
 
