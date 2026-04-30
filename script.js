@@ -1,3 +1,4 @@
+const bodyCartao = document.querySelector(".cartao");
 const svgBusca = document.getElementById("svg-busca");
 const inputBusca = document.getElementById("input-busca");
 const addLivro = document.getElementById("cadastro-livro");
@@ -256,3 +257,13 @@ function buscarLivro() {
         }
     });
 }
+
+bodyCartao.addEventListener('click', (evento) => {
+    console.log("Clique detectado no bodyCartao");
+    if (evento.target === bodyCartao) {
+    addLivro.classList.remove("visivel");
+    addLivro.classList.add("escondido");
+    usuarioInfo.classList.remove("visivel");
+    usuarioInfo.classList.add("escondido");
+    }
+});

@@ -154,6 +154,10 @@ header li {
     margin-top: 40px;
 }
 
+#usuario-info {
+    max-width: fit-content
+}
+
 #adicionar-livro, #gerenciar-conta, #emprestimos{
     cursor: pointer;
 }
