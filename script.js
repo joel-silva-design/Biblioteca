@@ -132,6 +132,7 @@ loginForm.addEventListener('submit', (evento) => {
             localStorage.setItem("usuarioLogado", JSON.stringify(usuarioLogado));
             window.location.href = "index.html";
             loginForm.reset();
+            return usuarioLogado;
         } else {
             mostrarMensagem("Nome ou senha incorretos.", "erro", mensagem);
         }  
@@ -154,6 +155,20 @@ if (addLivro) {
         } else if (!/^\d+$/.test(numeroCopias)) {
             mostrarMensagem("Digite um número válido de cópias.", "erro", mensagem);
             return;
+        } else if (biblioteca.some(livro => livro.titulo === titulo)) {
+            mostrarMensagem("Este livro já existe no acervo.", "erro", mensagem);
+            const livroExistente = biblioteca.find(livro => livro.titulo === titulo);
+                livroExistente.numeroCopias += parseInt(numeroCopias);
+                localStorage.setItem("biblioteca", JSON.stringify(biblioteca));
+                const livroItems = acervoLivros.querySelectorAll("li");
+                livroItems.forEach(item => {
+                    const itemTitulo = item.querySelector("h3").textContent;
+                    if (itemTitulo === titulo) {
+                        const itemCopias = item.querySelector("p").textContent;
+                        item.querySelector("p").textContent = itemCopias.replace(/Cópias: \d+/, `Cópias: ${livroExistente.numeroCopias}`);
+                    }
+                });
+            return;
         } else {
 
         novoLivro = {
@@ -164,7 +179,7 @@ if (addLivro) {
             numeroCopias: numeroCopias,
         };
         biblioteca.push(novoLivro);
-
+        
         localStorage.setItem("biblioteca", JSON.stringify(biblioteca));
         adicionarLivro(titulo, autor, anoPublicacao, numeroCopias);
         return this.novoLivro;
@@ -178,7 +193,12 @@ function adicionarLivro(titulo, autor, anoPublicacao, numeroCopias) {
         console.warn("A lista de livros não foi encontrada nesta página.");
         return;
     }
-   
+
+    if (biblioteca.some(livro => livro.titulo === titulo)) {
+        mostrarMensagem("Este livro já existe no acervo.", "erro", mensagem);
+        // numeroCopias ++;
+        // return;
+    }
     const livroItem = document.createElement("li");
     
     livroItem.innerHTML = `
@@ -194,59 +214,113 @@ function adicionarLivro(titulo, autor, anoPublicacao, numeroCopias) {
     mostrarMensagem("Livro adicionado com sucesso!", "sucesso", mensagem);
 
     const btnEmprestimo = livroItem.querySelector(".btn-emprestimo");
-    btnEmprestimo.addEventListener('click', emprestimoDeLivros.bind(null, titulo, autor, anoPublicacao, numeroCopias, mensagem2));
-
-//     function emprestimo(event) {
-//     event.preventDefault();
-    
-//     if (numeroCopias > 0) {
-//         numeroCopias--;
-//         localStorage.setItem("biblioteca", JSON.stringify(biblioteca));
-//         btnEmprestimo.parentElement.querySelector("p").textContent = `(${anoPublicacao}) - Cópias: ${numeroCopias}`;
-//         usuarioLogado.push(titulo);
-//         emprestimoDeLivros(titulo, autor);
-//         nenhumLivro.style.display = "none";
-//         mostrarMensagem("Empréstimo solicitado com sucesso!", "sucesso", mensagem2);
-//         return true;
-//     } else {
-//         mostrarMensagem("Desculpe, não há cópias disponíveis para empréstimo.", "erro", mensagem2);
-//         return false;
-//     }
-// }
+    btnEmprestimo.addEventListener('click', emprestimoDeLivros.bind(null, titulo, mensagem2));
 }
 
-function emprestimoDeLivros(titulo, autor, anoPublicacao, numeroCopias, mensagem) {
+if (acervoLivros) {
+    biblioteca.forEach(livro => {
+        adicionarLivro(livro.titulo, livro.autor, livro.anoPublicacao, livro.numeroCopias);
+    });
+}
+
+function emprestimoDeLivros(titulo, mensagem) {
+    let usuarioLogado = JSON.parse(localStorage.getItem("usuarioLogado"));
+    let maximoEmprestimos = 2;
+    let livro = biblioteca.find(livro => livro.titulo === titulo);
+    let numeroCopias = livro ? livro.numeroCopias : 0;
+    // let livrosEmprestados = document.getElementById("livros-emprestados");
+    let nenhumLivro = document.getElementById("nenhum-livro");
+    let emprestimosRealizados = usuarioLogado ? usuarioLogado.filter(livro => livro === titulo).length : 0;
     if (!livrosEmprestados) {
         console.warn("A lista de livros emprestados não foi encontrada nesta página.");
         return;
-    } else if (listaEmprestimos.length === 2) {
+    } else if (emprestimosRealizados === maximoEmprestimos) {
         mostrarMensagem("Você já tem 2 livros emprestados. Devolva um para solicitar outro.", "erro", mensagem);
         return;
-    } else if (numeroCopias <= 0) {
+    } 
+    else if (numeroCopias <= 0) {
         mostrarMensagem("Desculpe, não há cópias disponíveis para empréstimo.", "erro", mensagem);
         return;
     } else  if (numeroCopias > 0) {
-        numeroCopias--;
+        biblioteca = biblioteca.map(livro => {
+            if (livro.titulo === titulo) {
+                return { ...livro, numeroCopias: livro.numeroCopias -1};
+            }
+            return livro;
+        });
         localStorage.setItem("biblioteca", JSON.stringify(biblioteca));
         const livroItems = acervoLivros.querySelectorAll("li");
         livroItems.forEach(item => {
             const itemTitulo = item.querySelector("h3").textContent;
-            if (itemTitulo === titulo) {
-                item.querySelector("p").textContent = `(${anoPublicacao}) - Cópias: ${numeroCopias}`;
-            }
+            // if (itemTitulo === titulo) {
+            //     const livro = biblioteca.find(l => l.titulo === titulo);
+            //     item.querySelector("p").textContent = `(${livro.anoPublicacao}) - Cópias: ${livro.numeroCopias - 1}`;
+            // }
         });
         usuarioLogado.push(titulo);
+        localStorage.setItem("usuarioLogado", JSON.stringify(usuarioLogado));
         nenhumLivro.style.display = "none";
+        const itemEmprestado = document.createElement("li");
+        itemEmprestado.innerHTML = `${titulo} - ${livro.autor}
+        <br><small>data do empréstimo: ${new Date().toLocaleDateString()}</small>
+        <br><small>Devolver até: ${dataDevolucao}</small>
+        <button class="btn-devolver">Devolver</button>
+        <small class="mensagem3"></small>`;
+        livrosEmprestados.appendChild(itemEmprestado);
         mostrarMensagem("Empréstimo solicitado com sucesso!", "sucesso", mensagem);
+    
+
+    let btnDevolver = itemEmprestado.querySelector(".btn-devolver");
+    btnDevolver.addEventListener('click', () => {
+        biblioteca = biblioteca.map(livro => {
+            if (livro.titulo === titulo) {
+                return { ...livro, numeroCopias: livro.numeroCopias + 1 };
+            }
+            usuarioLogado = usuarioLogado.filter(livro => livro !== titulo);
+            localStorage.setItem("usuarioLogado", JSON.stringify(usuarioLogado));
+            itemEmprestado.remove();
+            return livro;
+        });
+        localStorage.setItem("biblioteca", JSON.stringify(biblioteca));
+    });
     }
     if (livrosEmprestados.children.length === 0) {
+        console.log("Nenhum empréstimo realizado.");
+        nenhumLivro.innerHTML = `Nenhum empréstimo realizado.`;
         nenhumLivro.style.display = "block";
-    }  else {
-        const itemEmprestado = document.createElement("li");
-        itemEmprestado.innerHTML = `${titulo} - ${autor}
-        <br><small>data do empréstimo: ${new Date().toLocaleDateString()}</small>
-        <br><small>Devolver até: ${dataDevolucao}</small>`;
-        livrosEmprestados.appendChild(itemEmprestado);
+    }
+}
+
+atualizarListaEmprestimos = () => {
+    let usuarioLogado = JSON.parse(localStorage.getItem("usuarioLogado"));
+    livrosEmprestados.innerHTML = "";
+    if (usuarioLogado && usuarioLogado.length > 0) {
+        usuarioLogado.forEach(titulo => {
+            const livro = biblioteca.find(livro => livro.titulo === titulo);
+            if (livro) {
+                const itemEmprestado = document.createElement("li");
+                itemEmprestado.innerHTML = `${livro.titulo} - ${livro.autor}
+                <br><small>data do empréstimo: ${new Date().toLocaleDateString()}</small>
+                <br><small>Devolver até: ${dataDevolucao}</small>
+                <button class="btn-devolver">Devolver</button>
+                <small class="mensagem3"></small>`;
+                livrosEmprestados.appendChild(itemEmprestado);
+            
+            let btnDevolver = itemEmprestado.querySelector(".btn-devolver");
+            btnDevolver.addEventListener('click', () => {
+                biblioteca = biblioteca.map(livro => {
+                    if (livro.titulo === titulo) {
+                        return { ...livro, numeroCopias: livro.numeroCopias + 1 };
+                    }
+                    itemEmprestado.remove();
+                    usuarioLogado = usuarioLogado.filter(livro => livro !== titulo);
+                    localStorage.setItem("usuarioLogado", JSON.stringify(usuarioLogado));
+                    return livro;
+                });
+                localStorage.setItem("biblioteca", JSON.stringify(biblioteca));
+            });
+            }
+        });
     }
 }
 
@@ -260,11 +334,10 @@ carregarBiblioteca = () => {
     });
 }
 
+carregarUsuarios();
 window.addEventListener('load', () => {
-    carregarUsuarios();
     carregarBiblioteca();
-    console.log(new Date().toLocaleDateString());
-    console.log(dataDevolucao);
+    atualizarListaEmprestimos();    
 });
 
 if (grupoUsuario) {
@@ -319,7 +392,9 @@ function buscarLivro() {
     });
 }
 
+if (inputBusca) {
 inputBusca.addEventListener('input', buscarLivro);
+}
 
 // Listener Global para fechar itens ao clicar fora
 window.addEventListener('click', (event) => {
