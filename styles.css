@@ -146,12 +146,12 @@ header li {
 
 #cadastro-livro, #usuario-info, #lista-emprestimos {
     position: absolute;
-    z-index: 1;
+    z-index: 10;
     padding: 10px;
     max-width: 200px;
     border-radius: 5px;
     background-color: rgb(168, 143, 111);
-    margin-top: 40px;
+    margin-top: 35px;
 }
 
 #lista-emprestimos {
@@ -295,6 +295,7 @@ header li {
     font-weight: bold;
     display: block;
     text-align: center;
+    transition: opacity 0.3s;
 }
 
 .mensagem.sucesso{
@@ -320,6 +321,36 @@ header li {
     display: flex;
     flex-direction: column;
     align-items: center;
+    /* justify-content: center; */
     gap: 10px;
     width: 250px;
+    position: relative;
+    /* z-index: -1; */
+}
+
+#acervo-livros li, #livros-emprestados li {
+    opacity: 0; /* Começa invisível */
+    animation: aparecer 0.5s forwards; /* Executa a animação ao ser criado */
+    transition: all 0.3s ease;
+}
+
+/* Animação de entrada */
+@keyframes aparecer {
+    to {
+        opacity: 1;
+    }
+}
+
+.btn-emprestar {
+     transition: background-color 0.3s, opacity 0.3s;
+}
+
+.btn-emprestar:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+#acervo-livros {
+    min-height: 400px;
 }
