@@ -22,6 +22,7 @@ const emprestimos = document.getElementById("emprestimos");
 const listaEmprestimos = document.getElementById("lista-emprestimos");
 const livrosEmprestados = document.getElementById("livros-emprestados");
 const mensagem = document.querySelector(".mensagem");
+const todosOsMenus = document.querySelectorAll('.animacao-suave');
 let dataEmprestimo = new Date();
 let diasPrazo = 15;
 dataEmprestimo.setDate(dataEmprestimo.getDate() + diasPrazo);
@@ -40,23 +41,53 @@ function mostrarMensagem(texto, tipo, elemento) {
     elemento.classList.add(tipo);
 }
 
+function gerenciarMenus(idParaAbrir) {
+    const menuAlvo = document.getElementById(idParaAbrir);
+    const jaEstavaAberto = menuAlvo.classList.contains('aberto');
+
+    // 1. Fecha TODOS os menus primeiro
+    todosOsMenus.forEach(menu => {
+        menu.classList.remove('aberto');
+    });
+
+    // 2. Se o menu clicado NÃO estava aberto, abre ele agora
+    // (Isso permite que o usuário clique no mesmo botão para fechar)
+    if (!jaEstavaAberto) {
+        menuAlvo.classList.add('aberto');
+    }
+
+    if (idParaAbrir === "cadastro-livro"){
+        mensagem.textContent = "";
+        mensagem.className = "mensagem";
+    }
+}
+
 if (svgBusca) {
     svgBusca.addEventListener('click', () =>{
         inputBusca.classList.toggle("visivel");
     });
 }
 
-if (addLivroHeader) {
-    addLivroHeader.addEventListener('click', () =>{
-    addLivro.classList.toggle("visivel");
-    usuarioInfo.classList.remove("visivel");
-    usuarioInfo.classList.add("escondido");
-    listaEmprestimos.classList.remove("visivel");
-    listaEmprestimos.classList.add("escondido");
-    mensagem.textContent = "";
-    mensagem.className = "mensagem";
-    });
-}
+window.addEventListener('click', (event) => {
+    // 1. Seleciona todos os containers de menu
+    // const todosOsMenus = document.querySelectorAll('.animacao-suave');
+    
+    // 2. Verifica se o clique foi em algum botão que abre os menus
+    // (Adicione a classe 'btn-header' nos seus botões para isso funcionar)
+    const clicouNoBotao = event.target.closest('.btn-header');
+
+    // 3. Se o clique NÃO foi num botão...
+    if (!clicouNoBotao) {
+        todosOsMenus.forEach(menu => {
+            // ...e o clique também NÃO foi dentro do menu aberto...
+            if (!menu.contains(event.target)) {
+                // ...então fecha o menu!
+                menu.classList.remove('aberto');
+            }
+        });
+    }
+});
+
 
 function validarConta (nome, email, senha, repeteSenha) {
     if (nome === "" || email === "" || senha === "" || repeteSenha === "") {
@@ -345,27 +376,8 @@ if (grupoUsuario) {
             localStorage.removeItem("usuarioLogado");
             window.location.href = "login.html";
         });
-        const usuarioInfo = document.getElementById("usuario-info");
-        grupoUsuario.addEventListener('click', () => {
-        usuarioInfo.classList.toggle("visivel");
-        addLivro.classList.remove("visivel");
-        addLivro.classList.add("escondido");
-        listaEmprestimos.classList.remove("visivel");
-        listaEmprestimos.classList.add("escondido");
-        });
     }
 }
-
-if (emprestimos) {
-    emprestimos.addEventListener('click', () => {
-        listaEmprestimos.classList.toggle("visivel");
-        addLivro.classList.remove("visivel");
-        addLivro.classList.add("escondido");
-        usuarioInfo.classList.remove("visivel");
-        usuarioInfo.classList.add("escondido");
-    });
-}
-
 
 function buscarLivro() {
     const termoBusca = inputBusca.value.trim().toLowerCase();
@@ -373,7 +385,8 @@ function buscarLivro() {
 
     livros.forEach(livro => {
         const titulo = livro.querySelector("h3").textContent.toLowerCase();
-        if (titulo.includes(termoBusca)) {
+        const autor = livro.querySelector("h4").textContent.toLowerCase();
+        if (titulo.includes(termoBusca) || autor.includes(termoBusca)) {
             livro.style.display = "block";
         } else {
             livro.style.display = "none";

@@ -91,7 +91,7 @@ header {
     background-color: rgb(165, 128, 79);
     padding: 20px;
     position: relative;
-    z-index: 0;
+    z-index: 2;
 }
 header li {
     font-weight: bold;
@@ -110,6 +110,26 @@ header li {
     height: 30px;
     border-radius: 20px;
     padding: 10px;
+}
+
+/* Estado Inicial (substitui o .escondido) */
+.animacao-suave {
+    display: grid;
+    grid-template-rows: 0fr; /* "Altura" zero */
+    transition: grid-template-rows 0.3s ease, opacity 0.3s ease;
+    opacity: 0;
+    overflow: hidden;
+}
+
+/* Estado Aberto (substitui o .visivel) */
+.animacao-suave.aberto {
+    grid-template-rows: 1fr; /* Abre exatamente o tamanho do conteúdo */
+    opacity: 1;
+}
+
+/* O conteúdo dentro do grid PRECISA disso para a animação funcionar */
+.conteudo-interno {
+    min-height: 0;
 }
 
 .escondido {
@@ -146,7 +166,7 @@ header li {
 
 #cadastro-livro, #usuario-info, #lista-emprestimos {
     position: absolute;
-    z-index: 10;
+    z-index: 1000;
     padding: 10px;
     max-width: 200px;
     border-radius: 5px;
@@ -321,11 +341,11 @@ header li {
     display: flex;
     flex-direction: column;
     align-items: center;
-    /* justify-content: center; */
     gap: 10px;
     width: 250px;
+    text-align: center;
     position: relative;
-    /* z-index: -1; */
+    z-index: 1;
 }
 
 #acervo-livros li, #livros-emprestados li {
