@@ -1,6 +1,7 @@
 const bodyCartao = document.querySelector(".cartao");
 const svgBusca = document.getElementById("svg-busca");
 const inputBusca = document.getElementById("input-busca");
+const busca = document.getElementById("container-busca");
 const addLivro = document.getElementById("cadastro-livro");
 const addLivroHeader = document.getElementById("adicionar-livro");
 const grupoUsuario = document.querySelector(".grupo-usuario");
@@ -41,13 +42,18 @@ function mostrarMensagem(texto, tipo, elemento) {
     elemento.classList.add(tipo);
 }
 
+
+
 function gerenciarMenus(idParaAbrir) {
     const menuAlvo = document.getElementById(idParaAbrir);
     const jaEstavaAberto = menuAlvo.classList.contains('aberto');
 
     // 1. Fecha TODOS os menus primeiro
     todosOsMenus.forEach(menu => {
-        menu.classList.remove('aberto');
+
+       if (menu.id !== 'container-busca' && !menu.contains(event.target)) {
+            menu.classList.remove('aberto');
+        }
     });
 
     // 2. Se o menu clicado NÃO estava aberto, abre ele agora
@@ -64,8 +70,22 @@ function gerenciarMenus(idParaAbrir) {
 
 if (svgBusca) {
     svgBusca.addEventListener('click', () =>{
-        inputBusca.classList.toggle("visivel");
+        event.stopPropagation(); // Evita que o clique suba para o window
+        busca.classList.toggle('aberto');
+
+        if (busca.classList.contains('aberto')) {
+        // Um pequeno delay opcional para garantir que o elemento esteja visível
+        setTimeout(() => {
+            inputBusca.focus();
+        }, 100); 
+    }
     });
+
+    window.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') {
+        busca.classList.remove('aberto');
+    }
+});
 }
 
 window.addEventListener('click', (event) => {
@@ -244,9 +264,9 @@ function renderizarEmprestimos() {
         const li = document.createElement("li");
         li.innerHTML = `
             <strong>${livro.titulo}</strong> - ${livro.autor}
-            <br><small>data do empréstimo: ${new Date().toLocaleDateString()}</small>
-            <br><small>Devolver até: ${dataDevolucao}</small>
-            <br><button onclick="devolverLivro('${titulo}')">Devolver</button>
+            <small>data do empréstimo: ${new Date().toLocaleDateString()}</small>
+            <small>Devolver até: ${dataDevolucao}</small>
+            <button class="btn-devolver" onclick="devolverLivro('${titulo}')">Devolver</button>
             <small id="mensagem-devolvido"></small>
         `;
         livrosEmprestados.appendChild(li);
@@ -398,39 +418,3 @@ if (inputBusca) {
 inputBusca.addEventListener('input', buscarLivro);
 }
 
-// Listener Global para fechar itens ao clicar fora
-window.addEventListener('click', (event) => {
-    
-    // 1. Fechar a Busca se clicar fora do ícone e do input
-    if (inputBusca && inputBusca.classList.contains("visivel")) {
-        if (!svgBusca.contains(event.target) && !inputBusca.contains(event.target)) {
-            inputBusca.classList.remove("visivel");
-        }
-    }
-
-    // 2. Fechar Cadastro de Livro se clicar fora do botão do header e do formulário
-    if (addLivro && addLivro.classList.contains("visivel")) {
-        // Verifica se o clique não foi no botão "Adicionar Livro" nem dentro do próprio formulário
-        if (!addLivroHeader.contains(event.target) && !addLivro.contains(event.target)) {
-            addLivro.classList.remove("visivel");
-            // Opcional: limpar mensagens de erro/sucesso ao fechar
-            mensagem.textContent = "";
-            mensagem.className = "mensagem";
-        }
-    }
-    
-    // 3. Fechar Informações do Usuário (caso você use a mesma lógica)
-    if (usuarioInfo && usuarioInfo.classList.contains("visivel")) {
-        if (!gerenciarConta.contains(event.target) && !usuarioInfo.contains(event.target)) {
-            usuarioInfo.classList.remove("visivel");
-            usuarioInfo.classList.add("escondido");
-        }
-    }
-
-    if (listaEmprestimos && listaEmprestimos.classList.contains("visivel")) {
-        if (!emprestimos.contains(event.target) && !listaEmprestimos.contains(event.target)) {
-            listaEmprestimos.classList.remove("visivel");
-            listaEmprestimos.classList.add("escondido");
-        }
-    }
-});

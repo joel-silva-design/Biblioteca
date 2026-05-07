@@ -76,7 +76,6 @@
 .cartao{
     background-color: bisque;
     color: black;
-
 }
 
 .cartao-escuro {
@@ -157,6 +156,32 @@ header li {
     cursor: pointer;
 }
 
+#container-busca {
+    /* Estado inicial: encolhido na direita */
+    display: flex;
+    opacity: 0;
+    transform: scaleX(0); 
+    transform-origin: right; 
+    transition: transform 0.4s ease, opacity 0.4s ease;
+    
+    /* Garante que o input não mude de tamanho enquanto o pai expande */
+    overflow: hidden; 
+}
+
+#container-busca.aberto {
+    opacity: 1;
+    transform: scaleX(1); /* Expande para o tamanho original */
+}
+
+.input-busca {
+    /* O tamanho que você quer que o input tenha quando aberto */
+    width: 250px; 
+    padding: 8px;
+    border-radius: 20px;
+    border: 1px solid #ccc;
+}
+
+
 .grupo-livro, .grupo-usuario, .grupo-emprestimo {
     display: flex;
     flex-direction: column;
@@ -222,6 +247,50 @@ header li {
 #btn-add-livro:hover {
     background-color: rgb(56, 197, 56);
     transform: scale(1.05);
+}
+
+.btn-emprestar{
+    padding: 3px;
+    border-radius: 5px;
+    height: 25px;
+    cursor: pointer;
+    background-color: rgb(20, 214, 214);
+    color: whitesmoke;
+    transition: background-color 0.3s, opacity 0.3s;
+}
+
+.btn-emprestar:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+
+.btn-emprestar:hover{
+    color: rgb(20, 214, 214);
+    background-color: whitesmoke;
+    transform: scale(1.05);
+}
+
+.btn-emprestar:disabled:hover{
+    color: #f5f5f5;
+    background-color: #cccccc;
+}
+
+.btn-devolver{
+    padding: 3px;
+    border-radius: 5px;
+    height: 25px;
+    cursor: pointer;
+    width: 100%;
+    background-color: rgb(75, 67, 58);
+    color: whitesmoke;
+}
+
+.btn-devolver:hover{
+    background-color: yellow;
+    transform: scale(1.05);
+    color: black;
 }
 
 #capa-do-livro {
@@ -346,6 +415,12 @@ header li {
     text-align: center;
     position: relative;
     z-index: 1;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.lista-livros li:hover{
+    transform: translateY(-5px); 
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
 }
 
 #acervo-livros li, #livros-emprestados li {
@@ -361,16 +436,16 @@ header li {
     }
 }
 
-.btn-emprestar {
-     transition: background-color 0.3s, opacity 0.3s;
-}
-
-.btn-emprestar:disabled {
-    background-color: #ccc;
-    cursor: not-allowed;
-    opacity: 0.6;
-}
-
 #acervo-livros {
     min-height: 400px;
 }
+
+#livros-emprestados li{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    justify-content: space-between;
+    gap: 5px;
+
+} 

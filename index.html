@@ -5,108 +5,147 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Biblioteca</title>
     <link rel="stylesheet" href="./styles.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+    />
   </head>
   <body class="cartao">
     <header>
-      <h1>Biblioteca SdF</h1>
-      <nav>
-        <ul id="cabecalho">
-          <li id="buscar-livro">
-            <a
-              ><input
-                type="search"
-                class="escondido"
-                id="input-busca"
-                placeholder="Busque Por Título ou Autor..."
-            /></a>
-          </li>
-          <li id="svg-busca"></li>
-          <div class="grupo-livro">
-            <li id="adicionar-livro"><a class="btn-header" onclick="gerenciarMenus('cadastro-livro')">Adicionar Livro</a></li>
-            <div class="animacao-suave" id="cadastro-livro">
-              <div class="conteudo-interno">
-                <form novalidate>
-                  <div class="card-livro">
-                    <label for="nome-livro">Nome do Livro</label>
-                    <input
-                      type="text"
-                      required
-                      id="nome-livro"
-                      placeholder="Ex: Sementes do Futuro"
-                    />
-                  </div>
+      <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+          <a class="navbar-brand" href="#">
+            <h1 class="m-0">Biblioteca SdF</h1>
+          </a>
 
-                  <div class="card-livro">
-                    <label for="capa-do-livro" id="label-capa"
-                      >Adicione a Capa Aqui</label
-                    >
-                    <input
-                      type="file"
-                      accept="image/*"
-                      name="capa-do-livro"
-                      id="capa-do-livro"
-                      required
-                    />
-                  </div>
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarNav"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
 
-                  <div class="card-livro">
-                    <label for="nome-autor">Nome do Autor(a)</label>
-                    <input
-                      type="text"
-                      id="nome-autor"
-                      required
-                      placeholder="Ex: João"
-                    />
-                  </div>
-                  <div class="card-livro">
-                    <label for="ano-publicacao">Ano de Publicação</label>
-                    <input
-                      type="number"
-                      maxlength="4"
-                      id="ano-publicacao"
-                      placeholder="Ex: 2025"
-                      required
-                    />
-                  </div>
-                  <div class="card-livro">
-                    <label for="livro-copias">Número de Cópias</label>
-                    <input
-                      type="number"
-                      id="livro-copias"
-                      required
-                      min="1"
-                      placeholder="No mínimo 1 cópia"
-                    />
-                  </div>
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto align-items-center" id="cabecalho">
+              <li class="nav-item" id="buscar-livro">
+                <div id="container-busca">
+                  <a
+                    ><input
+                      type="search"
+                      id="input-busca"
+                      placeholder="Busque Por Título ou Autor..."
+                  /></a>
+                </div>
+              </li>
+              <li class="nav-item" id="svg-busca"></li>
+              <div class="grupo-livro">
+                <li class="nav-item" id="adicionar-livro">
+                  <a
+                    class="btn-header"
+                    onclick="gerenciarMenus('cadastro-livro')"
+                    >Adicionar Livro</a
+                  >
+                </li>
+                <div class="animacao-suave" id="cadastro-livro">
+                  <div class="conteudo-interno">
+                    <form novalidate>
+                      <div class="card-livro">
+                        <label for="nome-livro">Nome do Livro</label>
+                        <input
+                          type="text"
+                          required
+                          id="nome-livro"
+                          placeholder="Ex: Sementes do Futuro"
+                        />
+                      </div>
 
-                  <button type="submit" id="btn-add-livro">Cadastrar Livro</button>
-                  <small class="mensagem"></small>
-                </form>
+                      <div class="card-livro">
+                        <label for="capa-do-livro" id="label-capa"
+                          >Adicione a Capa Aqui</label
+                        >
+                        <input
+                          type="file"
+                          accept="image/*"
+                          name="capa-do-livro"
+                          id="capa-do-livro"
+                          required
+                        />
+                      </div>
+
+                      <div class="card-livro">
+                        <label for="nome-autor">Nome do Autor(a)</label>
+                        <input
+                          type="text"
+                          id="nome-autor"
+                          required
+                          placeholder="Ex: João"
+                        />
+                      </div>
+                      <div class="card-livro">
+                        <label for="ano-publicacao">Ano de Publicação</label>
+                        <input
+                          type="number"
+                          maxlength="4"
+                          id="ano-publicacao"
+                          placeholder="Ex: 2025"
+                          required
+                        />
+                      </div>
+                      <div class="card-livro">
+                        <label for="livro-copias">Número de Cópias</label>
+                        <input
+                          type="number"
+                          id="livro-copias"
+                          required
+                          min="1"
+                          placeholder="No mínimo 1 cópia"
+                        />
+                      </div>
+
+                      <button type="submit" id="btn-add-livro">
+                        Cadastrar Livro
+                      </button>
+                      <small class="mensagem"></small>
+                    </form>
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
-          <div class="grupo-usuario">
-            <li id="gerenciar-conta"><a class="btn-header" onclick="gerenciarMenus('usuario-info')">Conta</a></li>
-            <div id="usuario-info" class="animacao-suave">
-              <div class="conteudo-interno">
-                <p id="nome-logado"></p>
-                <p id="email-logado"></p>
-                <button id="btn-logout">Sair</button>
+              <div class="grupo-usuario">
+                <li class="nav-item" id="gerenciar-conta">
+                  <a class="btn-header" onclick="gerenciarMenus('usuario-info')"
+                    >Conta</a
+                  >
+                </li>
+                <div id="usuario-info" class="animacao-suave">
+                  <div class="conteudo-interno">
+                    <p id="nome-logado"></p>
+                    <p id="email-logado"></p>
+                    <button id="btn-logout">Sair</button>
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
 
-          <div class="grupo-emprestimo">
-            <li id="emprestimos"><a class="btn-header" onclick="gerenciarMenus('lista-emprestimos')">Empréstimos</a></li>
-            <div id="lista-emprestimos" class="animacao-suave">
-              <div class="conteudo-interno">
-                <ul id="livros-emprestados">
-                  <!-- Os empréstimos serão adicionados aqui dinamicamente -->
-                </ul>
+              <div class="grupo-emprestimo">
+                <li class="nav-item" id="emprestimos">
+                  <a
+                    class="btn-header"
+                    onclick="gerenciarMenus('lista-emprestimos')"
+                    >Empréstimos</a
+                  >
+                </li>
+                <div id="lista-emprestimos" class="animacao-suave">
+                  <div class="conteudo-interno">
+                    <ul id="livros-emprestados">
+                      <!-- Os empréstimos serão adicionados aqui dinamicamente -->
+                    </ul>
+                  </div>
+                </div>
               </div>
-            </div>
+            </ul>
           </div>
-        </ul>
+        </div>
       </nav>
     </header>
     <main>
@@ -118,5 +157,6 @@
       </div>
     </main>
   </body>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <script src="./script.js"></script>
 </html>
