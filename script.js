@@ -292,6 +292,12 @@ function renderizarEmprestimos() {
 
 function emprestarLivro(titulo, elementoMensagem) {
     const livro = biblioteca.find(l => l.titulo === titulo);
+    const usuario = JSON.parse(localStorage.getItem("usuarioLogado"));
+
+    if (!usuario){
+        mostrarMensagem("Você deve fazer login para fazer empréstimo", "erro", elementoMensagem);
+    }
+
 
     if (!usuarioLogado.livrosEmprestados) {
         usuarioLogado.livrosEmprestados = [];
@@ -417,6 +423,12 @@ if (grupoUsuario) {
             localStorage.removeItem("usuarioLogado");
             window.location.href = "login.html";
         });
+    } else {
+        const btnLogout = document.getElementById("btn-logout");
+        btnLogout.textContent("fazer login")
+        btnLogout.addEventListener('click', ()=> {
+            window.location.href = "login.html";
+            });
     }
 }
 
