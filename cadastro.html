@@ -15,57 +15,78 @@
       <h1>Biblioteca SdF</h1>
     </header>
     <main>
-      <form class="cadastrar-usuario" novalidate>
-        <h2>Crie uma Conta</h2>
+      <!-- Container para centralizar e dar o aspecto de "card" da imagem -->
+<div class="container d-flex justify-content-center align-items-center vh-100">
+  <div class="card p-4 shadow-sm" style="max-width: 400px; width: 100%; background-color: #a68353; color: white;">
+    
+    <form class="cadastrar-usuario" novalidate>
+      <h2 class="text-center mb-4">Crie uma Conta</h2>
 
-        <div class="card-usuario">
-          <label for="nome-usuario">Nome de Usuário</label>
-          <input
-            type="text"
-            id="nome-usuario"
-            required
-            placeholder="Nome Simples sem Espaço"
-          />
-        </div>
+      <!-- Nome de Usuário -->
+      <div class="mb-3">
+        <label for="nome-usuario" class="form-label">Nome de Usuário</label>
+        <input
+          type="text"
+          class="form-control"
+          id="nome-usuario"
+          required
+          placeholder="Nome Simples sem Espaço"
+        />
+      </div>
 
-        <div class="card-usuario">
-          <label for="email-usuario">Digite seu Email</label>
-          <input
-            type="email"
-            id="email-usuario"
-            required
-            placeholder="maria@exemplo.com"
-          />
-        </div>
+      <!-- Email -->
+      <div class="mb-3">
+        <label for="email-usuario" class="form-label">Digite seu Email</label>
+        <input
+          type="email"
+          class="form-control"
+          id="email-usuario"
+          required
+          placeholder="maria@exemplo.com"
+        />
+      </div>
 
-        <div class="card-usuario">
-          <label for="senha-usuario">Crie uma Senha</label>
-          <input
-            type="password"
-            maxlength="6"
-            id="senha-usuario"
-            required
-            placeholder="Senha numérica de 6 dígitos"
-          />
-        </div>
+      <!-- Senha -->
+      <div class="mb-3">
+        <label for="senha-usuario" class="form-label">Crie uma Senha</label>
+        <input
+          type="password"
+          class="form-control"
+          maxlength="6"
+          id="senha-usuario"
+          required
+          placeholder="Senha numérica de 6 dígitos"
+        />
+      </div>
 
-        <div class="card-usuario">
-          <label for="repete-senha">Repita a Senha</label>
-          <input
-            type="password"
-            id="repete-senha"
-            maxlength="6"
-            placeholder="As senhas devem ser iguais"
-            required
-          />
-        </div>
+      <!-- Repetir Senha -->
+      <div class="mb-4">
+        <label for="repete-senha" class="form-label">Repita a Senha</label>
+        <input
+          type="password"
+          class="form-control"
+          id="repete-senha"
+          maxlength="6"
+          placeholder="As senhas devem ser iguais"
+          required
+        />
+      </div>
 
-        <a href="login.html"
-          ><button type="submit" class="btn-conta">Cadastrar Conta</button></a
-        >
-        <small class="mensagem"></small>
-        <p>Já tem uma conta? <a href="login.html">Faça login</a></p>
-      </form>
+      <!-- Botão de Cadastro -->
+      <div class="d-grid mb-3">
+        <button type="submit" class="btn btn-dark">Cadastrar Conta</button>
+      </div>
+
+      <small class="mensagem d-block text-center"></small>
+      
+      <p class="text-center mb-0">
+        Já tem uma conta? <a href="login.html" class="text-info text-decoration-none">Faça login</a>
+      </p>
+    </form>
+
+  </div>
+</div>
+
     </main>
   </body>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

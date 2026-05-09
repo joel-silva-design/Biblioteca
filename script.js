@@ -148,9 +148,13 @@ criarConta.addEventListener('submit', (evento) => {
             criadoEm: new Date(),
         };
         listaUsuarios.push(novoUsuario);
+        salvarUsuarios();
         criarConta.reset();
+        setTimeout(() => {
+        window.location.href = "login.html";
+        }, 1000);
+        return;
     }
-    salvarUsuarios();
 });
 }
 
@@ -399,7 +403,7 @@ window.addEventListener('load', () => {
 
 if (grupoUsuario) {
     const usuario = JSON.parse(localStorage.getItem("usuarioLogado"));
-    console.log("Usuário logado:", usuario);
+    // console.log("Usuário logado:", usuario);
     if (usuario) {
         let nomeLogado = document.getElementById("nome-logado");
         nomeLogado.innerHTML = `<strong>Bem-vindo, ${usuario.nome}!</strong>`;

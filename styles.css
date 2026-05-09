@@ -6,8 +6,8 @@
 }
 
 #login-form{
-    max-width: 400px;
-    height: 370px;
+    max-width: 450px;
+    height: 400px;
     margin: 100px auto;
     padding: 30px;
     background-color: rgb(165, 128, 79);
@@ -110,12 +110,14 @@ header li {
     transition: grid-template-rows 0.3s ease, opacity 0.3s ease;
     opacity: 0;
     overflow: hidden;
+    pointer-events: none;
 }
 
 /* Estado Aberto (substitui o .visivel) */
 .animacao-suave.aberto {
     grid-template-rows: 1fr; /* Abre exatamente o tamanho do conteúdo */
     opacity: 1;
+    pointer-events: auto;
 }
 
 /* O conteúdo dentro do grid PRECISA disso para a animação funcionar */
@@ -179,18 +181,18 @@ header li {
     margin-top: 35px;
 }
 
-#lista-emprestimos {
+/* #lista-emprestimos {
     max-width: fit-content;
-}
+} */
 
 #lista-emprestimos small {
     font-style: italic;
     color: rgb(46, 46, 46);
 }
 
-#usuario-info {
+/* #usuario-info {
     max-width: fit-content
-}
+} */
 
 #adicionar-livro, #gerenciar-conta, #emprestimos{
     cursor: pointer;
@@ -306,12 +308,7 @@ header li {
 }
 
 .cadastrar-usuario {
-    width: 510px;
-    margin: 100px auto;
-    align-self: center;
     background-color: rgb(165, 128, 79);
-    padding: 30px;
-    gap: 30px;
     border-radius: 8px;
     overflow: hidden;
 }
@@ -320,27 +317,6 @@ header li {
     margin-bottom: 20px;
     display: flex;
     flex-direction: column;
-}
-
-.cadastrar-usuario h2 {
-    text-align: center;
-    margin-bottom: 30px;
-    font-weight: bold;
-}
-
-.cadastrar-usuario input {
-    width: 100%;
-    height: 25px;
-    border-radius: 5px;
-    padding: 10px;
-    padding: 10px;
-    border: 1px solid #ccc;
-    font-size: 16px;
-}
-
-.cadastrar-usuario label {
-    margin-bottom: 5px;
-    font-weight: bold;
 }
 
 .btn-conta {
@@ -435,4 +411,35 @@ header li {
     justify-content: space-between;
     gap: 5px;
 
-} 
+}
+
+
+#usuario-info.card, 
+#lista-emprestimos.card,
+#cadastro-livro.animacao-suave {
+    display: none; 
+}
+
+#usuario-info.card.aberto, 
+#lista-emprestimos.card.aberto,
+#cadastro-livro.animacao-suave.aberto {
+    display: flex;
+}
+
+
+@media (max-width: 991px) {
+    #cadastro-livro, #usuario-info, #lista-emprestimos {
+        position: relative; /* Muda de absolute para relative */
+        margin-top: 10px;
+        max-width: 100%;    /* Ocupa a largura disponível no menu lateral */
+        z-index: 10;
+    }
+
+    #cabecalho {
+        gap: 20px; /* Reduz o espaço entre os itens no mobile */
+    }
+
+    #input-busca{
+        margin-top: 10px;
+    }
+}

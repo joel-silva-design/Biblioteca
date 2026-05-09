@@ -31,7 +31,7 @@
             <ul class="navbar-nav ms-auto align-items-center" id="cabecalho">
               <li class="nav-item" id="buscar-livro">
                 <div id="container-busca">
-                  <a 
+                  <a
                     ><input
                       type="search"
                       id="input-busca"
@@ -53,7 +53,9 @@
                   <div class="conteudo-interno">
                     <form novalidate>
                       <div class="card-livro">
-                        <label class="form-label" for="nome-livro">Nome do Livro</label class="form-label">
+                        <label class="form-label" for="nome-livro"
+                          >Nome do Livro</label
+                        >
                         <input
                           type="text"
                           required
@@ -63,9 +65,9 @@
                         />
                       </div>
 
-                      <div class="card-livro">
-                        <label class="form-label" for="capa-do-livro" id="label class="form-label"-capa"
-                          >Adicione a Capa Aqui</label class="form-label"
+                      <!-- <div class="card-livro">
+                        <label class="form-label" for="capa-do-livro"
+                          >Adicione a Capa Aqui</label
                         >
                         <input
                           type="file"
@@ -75,10 +77,12 @@
                           class="form-control"
                           required
                         />
-                      </div>
+                      </div> -->
 
                       <div class="card-livro">
-                        <label class="form-label" for="nome-autor">Nome do Autor(a)</label class="form-label">
+                        <label class="form-label" for="nome-autor"
+                          >Nome do Autor(a)</label
+                        >
                         <input
                           type="text"
                           id="nome-autor"
@@ -88,7 +92,9 @@
                         />
                       </div>
                       <div class="card-livro">
-                        <label class="form-label" for="ano-publicacao">Ano de Publicação</label class="form-label">
+                        <label class="form-label" for="ano-publicacao"
+                          >Ano de Publicação</label
+                        >
                         <input
                           type="number"
                           maxlength="4"
@@ -99,7 +105,9 @@
                         />
                       </div>
                       <div class="card-livro">
-                        <label class="form-label" for="livro-copias">Número de Cópias</label class="form-label">
+                        <label class="form-label" for="livro-copias"
+                          >Número de Cópias</label
+                        >
                         <input
                           type="number"
                           id="livro-copias"
@@ -120,10 +128,13 @@
               </div>
               <div class="grupo-usuario">
                 <li class="nav-item" id="gerenciar-conta">
-                  <a class="nav-link btn-header" onclick="gerenciarMenus('usuario-info')"
+                  <a
+                    class="nav-link btn-header"
+                    onclick="gerenciarMenus('usuario-info')"
                     >Conta</a
                   >
                 </li>
+                
                 <div id="usuario-info" class="card animacao-suave">
                   <div class="card-body conteudo-interno">
                     <p class="card-text" id="nome-logado"></p>
