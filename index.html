@@ -31,10 +31,11 @@
             <ul class="navbar-nav ms-auto align-items-center" id="cabecalho">
               <li class="nav-item" id="buscar-livro">
                 <div id="container-busca">
-                  <a
+                  <a 
                     ><input
                       type="search"
                       id="input-busca"
+                      class="form-control"
                       placeholder="Busque Por Título ou Autor..."
                   /></a>
                 </div>
@@ -43,7 +44,7 @@
               <div class="grupo-livro">
                 <li class="nav-item" id="adicionar-livro">
                   <a
-                    class="btn-header"
+                    class="nav-link btn-header"
                     onclick="gerenciarMenus('cadastro-livro')"
                     >Adicionar Livro</a
                   >
@@ -52,52 +53,57 @@
                   <div class="conteudo-interno">
                     <form novalidate>
                       <div class="card-livro">
-                        <label for="nome-livro">Nome do Livro</label>
+                        <label class="form-label" for="nome-livro">Nome do Livro</label class="form-label">
                         <input
                           type="text"
                           required
                           id="nome-livro"
+                          class="form-control"
                           placeholder="Ex: Sementes do Futuro"
                         />
                       </div>
 
                       <div class="card-livro">
-                        <label for="capa-do-livro" id="label-capa"
-                          >Adicione a Capa Aqui</label
+                        <label class="form-label" for="capa-do-livro" id="label class="form-label"-capa"
+                          >Adicione a Capa Aqui</label class="form-label"
                         >
                         <input
                           type="file"
                           accept="image/*"
                           name="capa-do-livro"
                           id="capa-do-livro"
+                          class="form-control"
                           required
                         />
                       </div>
 
                       <div class="card-livro">
-                        <label for="nome-autor">Nome do Autor(a)</label>
+                        <label class="form-label" for="nome-autor">Nome do Autor(a)</label class="form-label">
                         <input
                           type="text"
                           id="nome-autor"
+                          class="form-control"
                           required
                           placeholder="Ex: João"
                         />
                       </div>
                       <div class="card-livro">
-                        <label for="ano-publicacao">Ano de Publicação</label>
+                        <label class="form-label" for="ano-publicacao">Ano de Publicação</label class="form-label">
                         <input
                           type="number"
                           maxlength="4"
                           id="ano-publicacao"
+                          class="form-control"
                           placeholder="Ex: 2025"
                           required
                         />
                       </div>
                       <div class="card-livro">
-                        <label for="livro-copias">Número de Cópias</label>
+                        <label class="form-label" for="livro-copias">Número de Cópias</label class="form-label">
                         <input
                           type="number"
                           id="livro-copias"
+                          class="form-control"
                           required
                           min="1"
                           placeholder="No mínimo 1 cópia"
@@ -114,14 +120,14 @@
               </div>
               <div class="grupo-usuario">
                 <li class="nav-item" id="gerenciar-conta">
-                  <a class="btn-header" onclick="gerenciarMenus('usuario-info')"
+                  <a class="nav-link btn-header" onclick="gerenciarMenus('usuario-info')"
                     >Conta</a
                   >
                 </li>
-                <div id="usuario-info" class="animacao-suave">
-                  <div class="conteudo-interno">
-                    <p id="nome-logado"></p>
-                    <p id="email-logado"></p>
+                <div id="usuario-info" class="card animacao-suave">
+                  <div class="card-body conteudo-interno">
+                    <p class="card-text" id="nome-logado"></p>
+                    <p class="card-text" id="email-logado"></p>
                     <button id="btn-logout">Sair</button>
                   </div>
                 </div>
@@ -130,14 +136,14 @@
               <div class="grupo-emprestimo">
                 <li class="nav-item" id="emprestimos">
                   <a
-                    class="btn-header"
+                    class="nav-link btn-header"
                     onclick="gerenciarMenus('lista-emprestimos')"
                     >Empréstimos</a
                   >
                 </li>
-                <div id="lista-emprestimos" class="animacao-suave">
+                <div id="lista-emprestimos" class="card animacao-suave">
                   <div class="conteudo-interno">
-                    <ul id="livros-emprestados">
+                    <ul id="livros-emprestados" class="card-body">
                       <!-- Os empréstimos serão adicionados aqui dinamicamente -->
                     </ul>
                   </div>
@@ -151,7 +157,7 @@
     <main>
       <h2 id="h2-lista">Acervo de Livros</h2>
       <div id="acervo-livros">
-        <ul class="lista-livros">
+        <ul class="row justify-content-center g-4 lista-livros">
           <!-- Os livros serão adicionados aqui dinamicamente -->
         </ul>
       </div>

@@ -30,11 +30,14 @@ dataEmprestimo.setDate(dataEmprestimo.getDate() + diasPrazo);
 let dataDevolucao = dataEmprestimo.toLocaleDateString();
 
 
-let usuarioLogado = [];
+let usuarioLogado = JSON.parse(localStorage.getItem("usuarioLogado")) || { 
+    nome: "", 
+    email: "", 
+    livrosEmprestados: [] };
 let biblioteca = JSON.parse(localStorage.getItem("biblioteca")) || [];
 let listaUsuarios = JSON.parse(localStorage.getItem("usuarios")) || [];
 let novoLivro = {};
-let livriosEmprestados = [];
+// let livrosEmprestados = [];
 
 function mostrarMensagem(texto, tipo, elemento) {
     elemento.textContent = texto;
@@ -145,8 +148,6 @@ criarConta.addEventListener('submit', (evento) => {
             criadoEm: new Date(),
         };
         listaUsuarios.push(novoUsuario);
-        console.log(`Usuário ${nome} criado com sucesso!`);
-        console.log(listaUsuarios);
         criarConta.reset();
     }
     salvarUsuarios();
@@ -176,14 +177,22 @@ loginForm.addEventListener('submit', (evento) => {
     }
     const usuarioEncontrado = listaUsuarios.find(usuario => usuario.nome === nome && usuario.senha === senha);
     if (usuarioEncontrado) {
-            console.log(`Bem-vindo, ${usuarioEncontrado.nome}!`);
-            mostrarMensagem("Login realizado com sucesso!", "sucesso", mensagem);
-            let usuarioLogado = [usuarioEncontrado.nome, usuarioEncontrado.email,];
-            localStorage.setItem("usuarioLogado", JSON.stringify(usuarioLogado));
-            window.location.href = "index.html";
-            loginForm.reset();
-            return usuarioLogado;
-        } else {
+    mostrarMensagem("Login realizado com sucesso!", "sucesso", mensagem);
+
+    const dadosParaLogar = {
+        nome: usuarioEncontrado.nome,
+        email: usuarioEncontrado.email,
+        livrosEmprestados: usuarioEncontrado.livrosEmprestados || [] 
+    };
+
+    localStorage.setItem("usuarioLogado", JSON.stringify(dadosParaLogar));
+
+    setTimeout(() => {
+        window.location.href = "index.html";
+    }, 1000);
+    return;
+}
+ else {
             mostrarMensagem("Nome ou senha incorretos.", "erro", mensagem);
         }  
     });
@@ -215,14 +224,19 @@ function renderizarAcervo(){
 
     biblioteca.forEach((livro, index) => {
         const li = document.createElement("li");
+        li.classList.add("text-color-black", "col-12", "col-sm-6", "col-md-4", "col-lg-3");
         li.innerHTML = `
-            <h3>${livro.titulo}</h3>
-            <h4>${livro.autor}</h4>
-            <p>(${livro.anoPublicacao}) - Cópias: ${livro.numeroCopias}</p>
-            <button class="btn-emprestar" ${livro.numeroCopias <= 0 ? 'disabled' : ''}>
-                ${livro.numeroCopias > 0 ? 'Solicitar Empréstimo' : 'Esgotado'}
-            </button>
-            <div class="status-mensagem" id="msg-${index}"></div>
+            <div class="card card-livro h-100 text-center p-3" style="background-color: #A0885D; border: none;">
+                <h3 class="titulo-livro mb-1 fs-5 fw-black text-dark">${livro.titulo}</h3>
+                <p class="autor-livro mb-2 fs-6 text-dark">${livro.autor}</p>
+                <p class="small text-dark opacity-80" >(${livro.anoPublicacao}) - Cópias: ${livro.numeroCopias}</p>
+                <div class="d-flex justify-content-center mt-auto">
+                    <button class="btn btn-info btn-sm fw-bold btn-emprestar" ${livro.numeroCopias <= 0 ? 'disabled' : ''}>
+                        ${livro.numeroCopias > 0 ? 'Solicitar Empréstimo' : 'Esgotado'}
+                    </button>
+                </div>
+                <div class="card-footer status-mensagem" id="msg-${index}"></div>
+            </div>
         `;
 
         const btn = li.querySelector(".btn-emprestar");
@@ -241,17 +255,15 @@ function renderizarEmprestimos() {
     if (!livrosEmprestados) return;
     livrosEmprestados.innerHTML = "";
 
-    // Verifica se a lista existe E se tem itens
     const lista = usuarioLogado.livrosEmprestados || [];
 
     if (lista.length === 0) {
-        // Tente usar um elemento visível, como um parágrafo ou span, caso o CSS do <li> esteja oculto
         const aviso = document.createElement("p");
-        // Estilizamos direto no JS para garantir que apareça
+        aviso.classList.add("card-text", "align-self-center")
+        
         aviso.textContent = "Nenhum empréstimo realizado no momento.";
-        aviso.style.color = "#666"; 
-        aviso.style.listStyle = "none"; // Tira a bolinha da lista, se for <li>
-        aviso.style.textAlign = "center";
+        aviso.style.color = "#4d4d4d"; 
+        aviso.style.listStyle = "none";
         aviso.style.padding = "20px";
         
         livrosEmprestados.appendChild(aviso);
@@ -263,10 +275,11 @@ function renderizarEmprestimos() {
 
         const li = document.createElement("li");
         li.innerHTML = `
-            <strong>${livro.titulo}</strong> - ${livro.autor}
+            <strong class="card-title">${livro.titulo}</strong> <div class="card-text"> ${livro.autor} </div>
             <small>data do empréstimo: ${new Date().toLocaleDateString()}</small>
             <small>Devolver até: ${dataDevolucao}</small>
-            <button class="btn-devolver" onclick="devolverLivro('${titulo}')">Devolver</button>
+            <div class="d-flex justify-content-center mt-auto"></div>
+            <button class="btn btn-sm fw-bold d-flex justify-content-center align-items-center btn-devolver" onclick="devolverLivro('${titulo}')">Devolver</button>
             <small id="mensagem-devolvido"></small>
         `;
         livrosEmprestados.appendChild(li);
@@ -275,6 +288,10 @@ function renderizarEmprestimos() {
 
 function emprestarLivro(titulo, elementoMensagem) {
     const livro = biblioteca.find(l => l.titulo === titulo);
+
+    if (!usuarioLogado.livrosEmprestados) {
+        usuarioLogado.livrosEmprestados = [];
+    }
     
     if (usuarioLogado.livrosEmprestados.length >= 2) {
          mostrarMensagem("Você já tem 2 livros emprestados. Devolva um primeiro.", "erro", elementoMensagem);
@@ -291,13 +308,12 @@ function emprestarLivro(titulo, elementoMensagem) {
         usuarioLogado.livrosEmprestados.push(titulo); // Adiciona ao usuário
         
         mostrarMensagem(`Empréstimo realizado com sucesso!`, "sucesso", elementoMensagem);
-        salvarEAtualizar(1500);
+        salvarEAtualizar(1300);
     }
 }
 
 function devolverLivro(titulo) {
     const livro = biblioteca.find(l => l.titulo === titulo);
-    // const mensagemDevolvido = document.getElementById("mensagem-devolvido")
     
     if (livro) {
         livro.numeroCopias++; // Aumenta no dado
@@ -326,7 +342,7 @@ function salvarEAtualizar(delay = 0) {
 }
 
 // Inicialização
-renderizarTudo();
+// renderizarTudo();
 
 if (addLivro) {
     addLivro.addEventListener('submit', (evento) => {
@@ -371,6 +387,7 @@ if (addLivro) {
         mostrarMensagem("Livro adicionado com sucesso.", "sucesso", mensagem)
         localStorage.setItem("biblioteca", JSON.stringify(biblioteca));
         renderizarAcervo();
+        addLivro.reset();
         return;
     }
     })
@@ -381,14 +398,14 @@ window.addEventListener('load', () => {
 });
 
 if (grupoUsuario) {
-    let usuarioLogado = JSON.parse(localStorage.getItem("usuarioLogado"));
-    console.log("Usuário logado:", usuarioLogado);
-    if (usuarioLogado) {
+    const usuario = JSON.parse(localStorage.getItem("usuarioLogado"));
+    console.log("Usuário logado:", usuario);
+    if (usuario) {
         let nomeLogado = document.getElementById("nome-logado");
-        nomeLogado.innerHTML = `<strong>Bem-vindo, ${usuarioLogado[0]}!</strong>`;
+        nomeLogado.innerHTML = `<strong>Bem-vindo, ${usuario.nome}!</strong>`;
 
         let emailLogado = document.getElementById("email-logado");
-        emailLogado.textContent = usuarioLogado[1];
+        emailLogado.textContent = usuario.email;
 
         const btnLogout = document.getElementById("btn-logout");
 
@@ -401,16 +418,21 @@ if (grupoUsuario) {
 
 function buscarLivro() {
     const termoBusca = inputBusca.value.trim().toLowerCase();
-    const livros = acervoLivros.querySelectorAll("li");
+    const cards = document.querySelectorAll(".card");
 
-    livros.forEach(livro => {
-        const titulo = livro.querySelector("h3").textContent.toLowerCase();
-        const autor = livro.querySelector("h4").textContent.toLowerCase();
-        if (titulo.includes(termoBusca) || autor.includes(termoBusca)) {
-            livro.style.display = "block";
-        } else {
-            livro.style.display = "none";
-        }
+    cards.forEach(card => {
+        // Buscamos pelas classes que você mesmo definiu no innerHTML
+        const elementoTitulo = card.querySelector(".titulo-livro");
+        const elementoAutor = card.querySelector(".autor-livro");
+
+        const titulo = elementoTitulo ? elementoTitulo.textContent.trim().toLowerCase() : "";
+        const autor = elementoAutor ? elementoAutor.textContent.trim().toLowerCase() : "";
+
+        const corresponde = titulo.includes(termoBusca) || autor.includes(termoBusca);
+        
+        // Como você está usando 'li', o 'closest' deve buscar o 'li' ou a 'col'
+        const itemLista = card.closest('li') || card.closest('[class*="col"]') || card;
+        itemLista.style.display = corresponde ? "block" : "none";
     });
 }
 
@@ -418,3 +440,6 @@ if (inputBusca) {
 inputBusca.addEventListener('input', buscarLivro);
 }
 
+document.addEventListener("DOMContentLoaded", () => {
+    renderizarTudo();
+});

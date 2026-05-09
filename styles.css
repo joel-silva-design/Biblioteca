@@ -78,14 +78,7 @@
     color: black;
 }
 
-.cartao-escuro {
-    background-color: rgb(75, 67, 58);
-    color: whitesmoke;
-}
-
 header {
-    display: flex;
-    justify-content: space-between;
     margin-bottom: 20px;
     background-color: rgb(165, 128, 79);
     padding: 20px;
@@ -101,7 +94,6 @@ header li {
     list-style: none;
     align-items: center;
     gap: 50px;
-    margin-right: 20px;
 }
 
 #input-busca {
@@ -129,18 +121,6 @@ header li {
 /* O conteúdo dentro do grid PRECISA disso para a animação funcionar */
 .conteudo-interno {
     min-height: 0;
-}
-
-.escondido {
-    visibility: hidden;
-    opacity: 0;
-    height: 0;
-}
-
-.visivel {
-    visibility: visible;
-    opacity: 1;
-    height: auto;
 }
 
 #svg-busca {
@@ -206,7 +186,6 @@ header li {
 #lista-emprestimos small {
     font-style: italic;
     color: rgb(46, 46, 46);
-    
 }
 
 #usuario-info {
@@ -215,9 +194,6 @@ header li {
 
 #adicionar-livro, #gerenciar-conta, #emprestimos{
     cursor: pointer;
-}
-
-#adicionar-livro:hover, #gerenciar-conta:hover, #emprestimos:hover {
     color: whitesmoke;
 }
 
@@ -254,12 +230,12 @@ header li {
     border-radius: 5px;
     height: 25px;
     cursor: pointer;
-    background-color: rgb(20, 214, 214);
-    color: whitesmoke;
-    transition: background-color 0.3s, opacity 0.3s;
+    background-color: rgb(20, 214, 214) !important;
+    color: whitesmoke !important;
+    transition: background-color 0.3s, opacity 0.3s !important;
 }
 
-.btn-emprestar:disabled {
+.btn-emprestar:disabled{
     background-color: #ccc;
     cursor: not-allowed;
     opacity: 0.6;
@@ -267,9 +243,9 @@ header li {
 
 
 .btn-emprestar:hover{
-    color: rgb(20, 214, 214);
-    background-color: whitesmoke;
-    transform: scale(1.05);
+    color: rgb(20, 214, 214) !important;
+    background-color: whitesmoke !important;
+    transform: scale(1.05) !important;
 }
 
 .btn-emprestar:disabled:hover{
@@ -283,14 +259,14 @@ header li {
     height: 25px;
     cursor: pointer;
     width: 100%;
-    background-color: rgb(75, 67, 58);
-    color: whitesmoke;
+    background-color: rgb(75, 67, 58) !important;
+    color: whitesmoke !important;
 }
 
 .btn-devolver:hover{
-    background-color: yellow;
-    transform: scale(1.05);
-    color: black;
+    background-color: yellow !important;
+    transform: scale(1.05) !important;
+    color: black !important;
 }
 
 #capa-do-livro {
@@ -396,23 +372,17 @@ header li {
 }
 
 .lista-livros {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
     gap: 20px;
     margin-left: 20px;
     list-style: none;
 }
 
 .lista-livros li {
-    background-color: rgb(158, 126, 83);
+    background-color: #A0885D;
     padding: 10px;
     border-radius: 5px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
     gap: 10px;
     width: 250px;
-    text-align: center;
     position: relative;
     z-index: 1;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -427,6 +397,23 @@ header li {
     opacity: 0; /* Começa invisível */
     animation: aparecer 0.5s forwards; /* Executa a animação ao ser criado */
     transition: all 0.3s ease;
+    animation: deslizarEntrada 0.4s ease-out forwards;
+    list-style: none;
+    margin-bottom: 10px;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+}
+
+@keyframes deslizarEntrada {
+    from {
+        opacity: 0;
+        transform: translateY(20px); /* Começa 20px abaixo */
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0); /* Termina no lugar certo */
+    }
 }
 
 /* Animação de entrada */
