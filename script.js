@@ -231,6 +231,7 @@ function renderizarAcervo(){
         li.innerHTML = `Biblioteca vazia,<strong>Adicione Livros</strong> ao Acervo`;
         acervoLivros.appendChild(li);
         console.log("Biblioteca vazia");
+        return;
     }
 
     acervoLivros.innerHTML = "";
