@@ -427,6 +427,7 @@ if (grupoUsuario) {
         });
     } else {
         const btnLogout = document.getElementById("btn-logout");
+        let emailLogado = document.getElementById("email-logado");
         emailLogado.textContent = "Você precisa fazer login para soloicitar Empréstimo."
         btnLogout.textContent = "Faça login";
 
