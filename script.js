@@ -225,6 +225,12 @@ function renderizarAcervo(){
         return;
     }
 
+    if (biblioteca.length === 0){
+        const p = document.createElement("p");
+        p.classList.add("small", "text-dark", "opacity-80");
+        p.innerHTML = `Biblioteca vazia,<strong>Adicione Livros</strong> ao Acervo`
+    }
+
     acervoLivros.innerHTML = "";
 
     biblioteca.forEach((livro, index) => {
@@ -428,7 +434,7 @@ if (grupoUsuario) {
     } else {
         const btnLogout = document.getElementById("btn-logout");
         const emailLogado = document.getElementById("email-logado");
-        emailLogado.textContent = "Você precisa fazer login para soloicitar Empréstimo.";
+        emailLogado.textContent = "Você precisa fazer login para solicitar Empréstimo.";
         btnLogout.textContent = "Faça login";
 
 
