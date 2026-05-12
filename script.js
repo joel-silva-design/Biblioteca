@@ -50,6 +50,7 @@ function mostrarMensagem(texto, tipo, elemento) {
 function gerenciarMenus(idParaAbrir) {
     const menuAlvo = document.getElementById(idParaAbrir);
     const jaEstavaAberto = menuAlvo.classList.contains('aberto');
+    const usuario = JSON.parse(localStorage.getItem("usuarioLogado"))
 
     // 1. Fecha TODOS os menus primeiro
     todosOsMenus.forEach(menu => {
@@ -296,6 +297,7 @@ function emprestarLivro(titulo, elementoMensagem) {
 
     if (!usuario){
         mostrarMensagem("Você deve fazer login para fazer empréstimo", "erro", elementoMensagem);
+        return;
     }
 
 
@@ -425,7 +427,10 @@ if (grupoUsuario) {
         });
     } else {
         const btnLogout = document.getElementById("btn-logout");
-        btnLogout.textContent("fazer login")
+        emailLogado.textContent = "Você precisa fazer login para soloicitar Empréstimo."
+        btnLogout.textContent = "Faça login";
+
+
         btnLogout.addEventListener('click', ()=> {
             window.location.href = "login.html";
             });

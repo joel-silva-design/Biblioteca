@@ -7,7 +7,7 @@
 
 #login-form{
     max-width: 450px;
-    height: 400px;
+    height: 445px;
     margin: 100px auto;
     padding: 30px;
     background-color: rgb(165, 128, 79);
@@ -331,7 +331,7 @@ header li {
 }
 
 .mensagem{
-    margin-top: 7px;
+    /* margin-top: 7px; */
     min-height: 12px;
     font-weight: bold;
     display: block;
