@@ -228,7 +228,7 @@ function renderizarAcervo(){
     if (biblioteca.length === 0){
         const li = document.createElement("li");
         li.classList.add("small", "text-dark", "opacity-80", "col-12", "col-sm-6", "col-md-4", "col-lg-3");
-        li.innerHTML = `Biblioteca vazia,<strong>Adicione Livros</strong> ao Acervo`;
+        li.innerHTML = `Biblioteca vazia, <strong>Adicione Livros</strong> ao Acervo`;
         acervoLivros.appendChild(li);
         console.log("Biblioteca vazia");
         return;
